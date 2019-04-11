@@ -22,4 +22,4 @@ This is a Visual Studio Extension that contains a number of XML snippets to make
 ## MP Authoring Snippets Guides
 These documents gives a detailed description on how to use the snippet in the MP Authoring Snippets. They provide step-by-step instructions on how to create the different elements of a management pack.
 
-To open the [MP Authoring Snippets Guides](/index.html), click the link.
+To open the [MP Authoring Snippets Guides](/README.md), click the link.
