@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Simple Threshold, Windows Performance, No Alert</Title>
+    <Author>OpsLogix</Author>
+    <Description>This snippet inserts a Windows Perfomance Monitor with a simple threshold.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorName</ID>
+        <ToolTip>The description part of the monitor name.</ToolTip>
+        <Default>MonitorName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>Property Path</ID>
+        <ToolTip>The path to the property. If its located on the target, remove host. But if the target i hosted by Win computer, leave it.</ToolTip>
+        <Default>Host/</Default>
+      </Literal>
+      <Literal>
+        <ID>CounterName</ID>
+        <ToolTip>The name of the counter in Performance monitor.</ToolTip>
+        <Default>CounterName</Default>
+      </Literal>
+      <Literal>
+        <ID>ObjectName</ID>
+        <ToolTip>The name of the objectin Performance monitor.</ToolTip>
+        <Default>ObjectName</Default>
+      </Literal>
+      <Literal>
+        <ID>InstanceName</ID>
+        <ToolTip>The name of the instancein Performance monitor.</ToolTip>
+        <Default>InstanceName</Default>
+      </Literal>
+      <Literal>
+        <ID>Frequency</ID>
+        <ToolTip>How often the monitor should run in seconds.</ToolTip>
+        <Default>900</Default>
+      </Literal>
+      <Literal>
+        <ID>SummaryText</ID>
+        <ToolTip>Short summary of the rule and the alert.</ToolTip>
+        <Default>Summary text</Default>
+      </Literal>
+      <Literal>
+        <ID>ResolutionText</ID>
+        <ToolTip>Short description of the actions to take when this turns unhealthy.</ToolTip>
+        <Default>Resolution text</Default>
+      </Literal>
+      <Literal>
+        <ID>ParentMonitor</ID>
+        <ToolTip></ToolTip>
+        <Default>Health!System.Health.AvailabilityState</Default>
+      </Literal>
+      <Literal>
+        <ID>Threshold</ID>
+        <ToolTip></ToolTip>
+        <Default>Threshold</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorDisplayName</ID>
+        <ToolTip>DisplayName, what is shown in the Operations Console.</ToolTip>
+        <Default>MonitorDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorDescription</ID>
+        <ToolTip>Short description of the monitor.</ToolTip>
+        <Default>MonitorDescription</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Monitoring>
+    <Monitors>
+      <UnitMonitor ID="@MPID@.@MonitorName@.WindowsPerformance.UnitMonitor" Target="@TargetClass@" Accessibility="Public" 
+				   Enabled="true" ParentMonitorID="@ParentMonitor@" Remotable="true" Priority="Normal" TypeID="Perf!System.Performance.ThresholdMonitorType" ConfirmDelivery="false">
+        <Category>Custom</Category>
+        <OperationalStates>
+          <OperationalState ID="UnderThreshold" MonitorTypeStateID="UnderThreshold" HealthState="Success" />
+          <OperationalState ID="OverThreshold" MonitorTypeStateID="OverThreshold" HealthState="Error" />
+        </OperationalStates>
+        <Configuration>
+          <ComputerName>$Target/@Property Path@Property[Type="MicrosoftWindowsLibrary7585010!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+          <CounterName>@CounterName@</CounterName>
+          <ObjectName>@ObjectName@</ObjectName>
+          <InstanceName>@InstanceName@</InstanceName>
+          <AllInstances>false</AllInstances>
+          <Frequency>@Frequency@</Frequency>
+          <Threshold>@Threshold@</Threshold>
+        </Configuration>
+      </UnitMonitor>
+    </Monitors>
+    </Monitoring>
+    <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@MonitorName@.WindowsPerformance.UnitMonitor">
+            <Name>@MonitorDisplayName@</Name>
+            <Description>@MonitorDescription@</Description>
+          </DisplayString>
+        </DisplayStrings>
+        <KnowledgeArticles>
+        <KnowledgeArticle ElementID="@MPID@.@MonitorName@.WindowsPerformance.UnitMonitor" Visible="true">
+          <MamlContent xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+            <maml:section>
+              <maml:title>Summary</maml:title>
+              <maml:para>@SummaryText@</maml:para>
+            </maml:section>
+            <maml:section>
+              <maml:title>Resolutions</maml:title>
+              <maml:para>@ResolutionText@</maml:para>
+            </maml:section>
+          </MamlContent>
+        </KnowledgeArticle>
+      </KnowledgeArticles>
+      </LanguagePack>
+    </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

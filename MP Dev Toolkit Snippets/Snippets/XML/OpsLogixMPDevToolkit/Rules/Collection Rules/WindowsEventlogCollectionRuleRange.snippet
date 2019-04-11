@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Collection, Windows Eventlog, Range of Event IDs</Title>
+      <Author>OpsLogix</Author>
+      <Description>
+        Inserts a event collection rule which collects all events in a range of Event IDs.
+      </Description>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>MPID</ID>
+          <ToolTip>The ID of the management pack.</ToolTip>
+          <Default>MPID</Default>
+        </Literal>
+        <Literal>
+          <ID>RuleName</ID>
+          <ToolTip>The description part of the Rule name.</ToolTip>
+          <Default>RuleName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>TargetClass</ID>
+          <ToolTip>The target class agains which the rule will be run. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+          <Default>Windows!Microsoft.Windows.Server.Computer</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>EventLogName</ID>
+          <ToolTip>The name of the Event log.</ToolTip>
+          <Default>EventLogName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>PublisherName</ID>
+          <ToolTip>This is the source of the event.</ToolTip>
+          <Default>PublisherName</Default>
+        </Literal>
+        <Literal>
+          <ID>LowerEventID</ID>
+          <ToolTip>This is the lower end of the range of Event IDs. Events with ID greater than or equal will be collected.</ToolTip>
+          <Default>LowerEventID</Default>
+        </Literal>
+        <Literal>
+          <ID>UpperEventID</ID>
+          <ToolTip>This is the upper end of the range of Event IDs. Events with ID lower than or equal will be collected.</ToolTip>
+          <Default>UpperEventID</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>RuleDisplayName</ID>
+          <ToolTip>DisplayName, what is shown in the Operations Console.</ToolTip>
+          <Default>RuleDisplayName</Default>
+        </Literal>
+        <Literal>
+          <ID>NetworkNamePropertyPath</ID>
+          <ToolTip>This is the path to the NetworkName property. Depending on you target class you can need one or more 'Host' expressions in the path.</ToolTip>
+          <Default>Host/</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="xml" Delimiter="@">
+        <![CDATA[<Monitoring>
+    <Rules>
+      <Rule ID="@MPID@.@RuleName@.Collection.Rule" Target="@TargetClass@"
+            Enabled="true" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>EventCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.EventCollector">
+            <ComputerName>$Target/@NetworkNamePropertyPath@Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <LogName>@EventLogName@</LogName>
+            <AllowProxying>false</AllowProxying>
+                <Expression>
+                  <And>
+                    <Expression>
+                      <SimpleExpression>
+                        <ValueExpression>
+                          <XPathQuery Type="String">PublisherName</XPathQuery>
+                        </ValueExpression>
+                        <Operator>Equal</Operator>
+                        <ValueExpression>
+                          <Value Type="String">@PublisherName@</Value>
+                        </ValueExpression>
+                      </SimpleExpression>
+                    </Expression>
+                    <Expression>
+                      <SimpleExpression>
+                        <ValueExpression>
+                          <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                        </ValueExpression>
+                        <Operator>GreaterEqual</Operator>
+                        <ValueExpression>
+                          <Value Type="UnsignedInteger">@LowerEventID@</Value>
+                        </ValueExpression>
+                      </SimpleExpression>
+                    </Expression>
+                    <Expression>
+                      <SimpleExpression>
+                        <ValueExpression>
+                          <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                        </ValueExpression>
+                        <Operator>LessEqual</Operator>
+                        <ValueExpression>
+                          <Value Type="UnsignedInteger">@UpperEventID@</Value>
+                        </ValueExpression>
+                      </SimpleExpression>
+                    </Expression>
+                  </And>
+            </Expression>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SC!Microsoft.SystemCenter.CollectEvent"/>
+          <WriteAction ID="WriteToDW" TypeID="MSDL!Microsoft.SystemCenter.DataWarehouse.PublishEventData"/>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@RuleName@.Collection.Rule">
+          <Name>@RuleDisplayName@</Name>
+          <Description>This rule collects events from @PublisherName@ with eventId between @LowerEventID@ and @UpperEventID@, logged in @EventLogName@.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

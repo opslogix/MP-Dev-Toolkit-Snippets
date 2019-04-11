@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Collection, Script Performance</Title>
+    <Author>OpsLogix</Author>
+    <Description>This snippet inserts a collection rule which runs a script.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleName</ID>
+        <ToolTip>The description part of the Rule name.</ToolTip>
+        <Default>RuleName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>The target class agains which the rule will be run. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>ScriptName</ID>
+        <ToolTip>Name of the script (without file extension)</ToolTip>
+        <Default>ScriptName</Default>
+      </Literal>
+      <Literal>
+        <ID>Frequency</ID>
+        <ToolTip>The frequency in seconds that the rule should collect performance.</ToolTip>
+        <Default>900</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleDisplayName</ID>
+        <ToolTip>DisplayName, what is shown in the Operations Console.</ToolTip>
+        <Default>RuleDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleDescription</ID>
+        <ToolTip>Short description of the rule.</ToolTip>
+        <Default>RuleDescription</Default>
+      </Literal>
+      <Literal>
+        <ID>TimeoutSeconds</ID>
+        <ToolTip>Timeout in seconds for the script.</ToolTip>
+        <Default>300</Default>
+      </Literal>
+      <Literal>
+        <ID>CounterName</ID>
+        <ToolTip>Name of the counter in performance monitor.</ToolTip>
+        <Default>CounterName</Default>
+      </Literal>
+      <Literal>
+        <ID>ObjectName</ID>
+        <ToolTip>Name of the object in performance monitor.</ToolTip>
+        <Default>ObjectName</Default>
+      </Literal>
+      <Literal>
+        <ID>InstanceName</ID>
+        <ToolTip>Name of the instance in performance monitor.</ToolTip>
+        <Default>InstanceName</Default>
+      </Literal>
+      <Literal>
+        <ID>AllInstances</ID>
+        <ToolTip>Specifies whether to collect all instances for a multi-instance counter. Possible values are true/false.</ToolTip>
+        <Default>false</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<TypeDefinitions>
+    <ModuleTypes>
+      <DataSourceModuleType ID="@MPID@.@RuleName@.DS" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <xsd:element name="ObjectName" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="CounterName" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="InstanceName" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="IntervalSeconds" type="xsd:integer" minOccurs="1"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="ObjectName" Selector="$Config/ObjectName$" ParameterType="string"/>
+          <OverrideableParameter ID="CounterName" Selector="$Config/CounterName$" ParameterType="string"/>
+          <OverrideableParameter ID="InstanceName" Selector="$Config/InstanceName$" ParameterType="string"/>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Schedule" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime></SyncTime>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="@MPID@.@RuleName@.PA">
+                <ObjectName>$Config/ObjectName$</ObjectName>
+                <CounterName>$Config/CounterName$</CounterName>
+                <InstanceName>$Config/InstanceName$</InstanceName>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="Probe">
+                <Node ID="Schedule"></Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+      </DataSourceModuleType>
+      <ProbeActionModuleType ID="@MPID@.@RuleName@.PA" Accessibility="Internal" PassThrough="false" Batching="false">
+        <Configuration>
+          <xsd:element name="ObjectName" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="CounterName" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="InstanceName" type="xsd:string" minOccurs="1"/>
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PS" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagProbe">
+                <ScriptName>@ScriptName@.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/@ScriptName@.ps1$</ScriptBody>
+                <Parameters>
+                  <Parameter>
+                    <Name>ObjectName</Name>
+                    <Value>$Config/ObjectName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>CounterName</Name>
+                    <Value>$Config/CounterName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>InstanceName</Name>
+                    <Value>$Config/InstanceName$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>@TimeoutSeconds@</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PS"></Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions><Monitoring>
+    <Rules>
+      <Rule ID="@MPID@.@RuleName@.Collection.Rule" Target="@TargetClass@" Enabled="true">
+      <Category>PerformanceCollection</Category>
+      <DataSources>
+        <DataSource ID="DS" TypeID="@MPID@.@RuleName@.DS">
+          <ObjectName>@ObjectName@</ObjectName>
+          <CounterName>@CounterName@</CounterName>
+          <InstanceName>@InstanceName@</InstanceName>
+          <IntervalSeconds>@Frequency@</IntervalSeconds>
+        </DataSource>
+      </DataSources>
+       <ConditionDetection ID="DataMapper" TypeID ="Perf!System.Performance.DataGenericMapper">
+          <ObjectName>$Data/Property[@@Name="ObjectName"]$</ObjectName>
+          <CounterName>$Data/Property[@@Name="CounterName"]$</CounterName>
+          <InstanceName>$Data/Property[@@Name="InstanceName"]$</InstanceName>
+          <Value>$Data/Property[@@Name="PerformanceValue"]$</Value>
+        </ConditionDetection>
+      <WriteActions>
+        <WriteAction ID="WriteToDB" TypeID="SC!Microsoft.SystemCenter.CollectPerformanceData" />
+        <WriteAction ID="WriteToDW" TypeID="MSDL!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+      </WriteActions>
+      </Rule>
+    </Rules>
+    </Monitoring>
+      <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@RuleName@.Collection.Rule">
+          <Name>@RuleDisplayName@</Name>
+          <Description>>@RuleDescription@</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@RuleName@.Collection.Rule">
+          <Name>@RuleDisplayName@</Name>
+          <Description>>@RuleDescription@</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

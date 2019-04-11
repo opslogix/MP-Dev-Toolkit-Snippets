@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Class Property</Title>
+    <Author>OpsLogix</Author>
+    <Shortcut></Shortcut>
+    <Description>Inserts a new property into a class.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>    
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>PropertyName</ID>
+        <ToolTip>This is the ID of the property. It does not have to be uniqe in the management pack, so just the name is sufficient.</ToolTip>
+        <Default>Property Name</Default>
+      </Literal>
+      <Literal>
+        <ID>PropertyType</ID>
+        <ToolTip>
+          Enter one of the property types. Most common types are:
+          - string
+          - int
+          - bool
+          - decimal
+          - double
+          - datetime
+          - guid
+
+          Press Backspace and Ctrl+Space to use Intellisense.
+        </ToolTip>
+        <Default>string</Default>
+      </Literal>
+      <Literal>
+        <ID>KeyProperty</ID>
+        <ToolTip>Is this a key property of the class. Possible values are true or false.</ToolTip>
+        <Default>false</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Property ID="@PropertyName@" Key="false" Type="@PropertyType@" />]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

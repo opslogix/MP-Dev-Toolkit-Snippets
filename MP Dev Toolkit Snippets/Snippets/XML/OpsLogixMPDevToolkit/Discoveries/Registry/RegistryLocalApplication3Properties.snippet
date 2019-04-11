@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>LocalApplication, Registry discovery, 3 properties</Title>
+      <Author>OpsLogix</Author>
+      <Description>
+        Inserts a registry discovery of a Local Application Class. It looks for the existance of a registry
+        key for the discovery and populates three properties from registry values.
+      </Description>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>MPID</ID>
+          <ToolTip>The ID of the management pack.</ToolTip>
+          <Default>MPID</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ClassName</ID>
+          <ToolTip>Name of the class being discovered (minus MPID and class suffix).</ToolTip>
+          <Default>ClassName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Frequency</ID>
+          <ToolTip>The frequency of the discovery, how often it should run.</ToolTip>
+          <Default>3600</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>DiscoveryRegistryKeyName</ID>
+          <ToolTip>This is the name of the key which the discovery is based on.</ToolTip>
+          <Default>RegistryKeyName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>DiscoveryRegistryKeyPath</ID>
+          <ToolTip>This is the path (from the hive sub key) to the registry key.</ToolTip>
+          <Default>RegistryKeyPath</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property1Name</ID>
+          <ToolTip>This is the name of the property which will be populated by the discovery. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+          <Default>Property1Name</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property1RegistryKeyName</ID>
+          <ToolTip>The name of the value that will be used to popluate the property.</ToolTip>
+          <Default>Property1RegistryKeyName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property1RegistryKeyPath</ID>
+          <ToolTip>This is the path (from the hive sub key) to the registry key.</ToolTip>
+          <Default>Property1RegistryKeyPath</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property2Name</ID>
+          <ToolTip>This is the name of the property which will be populated by the discovery. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+          <Default>Property2Name</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property2RegistryKeyName</ID>
+          <ToolTip>The name of the value that will be used to popluate the property.</ToolTip>
+          <Default>Property2RegistryKeyName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property2RegistryKeyPath</ID>
+          <ToolTip>The path to the registry value.</ToolTip>
+          <Default>Property2RegistryKeyPath</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property1AttributeType</ID>
+          <ToolTip>
+            0 – Boolean: used when checking existence of the key or value.
+            1 – String: converting result value to string if possible.
+            2 – Integer: converting result value to number if possible.
+            3 – Float: converting result value to float.
+          </ToolTip>
+          <Default>1</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property2AttributeType</ID>
+          <ToolTip>
+            0 – Boolean: used when checking existence of the key or value.
+            1 – String: converting result value to string if possible.
+            2 – Integer: converting result value to number if possible.
+            3 – Float: converting result value to float.
+          </ToolTip>
+          <Default>1</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property3Name</ID>
+          <ToolTip>This is the name of the property which will be populated by the discovery. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+          <Default>Property3Name</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property3RegistryKeyName</ID>
+          <ToolTip>The name of the value that will be used to popluate the property.</ToolTip>
+          <Default>Property3RegistryKeyName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property3RegistryKeyPath</ID>
+          <ToolTip>The path to the registry value.</ToolTip>
+          <Default>Property3RegistryKeyPath</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property3AttributeType</ID>
+          <ToolTip>
+            0 – Boolean: used when checking existence of the key or value.
+            1 – String: converting result value to string if possible.
+            2 – Integer: converting result value to number if possible.
+            3 – Float: converting result value to float.
+          </ToolTip>
+          <Default>1</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>DisplayName</ID>
+          <ToolTip>DisplayName, what is shown in the Operations Console. Defaults to target display name.</ToolTip>
+          <Default>$Target/Property[Type="System!System.Entity"]/DisplayName$</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>HiveKey</ID>
+          <ToolTip>
+            This is in which sub key under HKLM the discovery should look for the key. Possible values are:
+
+            - HARDWARE
+            - SOFTWARE
+            - SYSTEM
+
+            Default is SOFTWARE.
+          </ToolTip>
+          <Default>SOFTWARE</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="xml" Delimiter="@">
+        <![CDATA[  <Monitoring>
+    <Discoveries>
+      <Discovery ID="@MPID@.@ClassName@.Discovery" Target="Windows!Microsoft.Windows.Server.Computer" Remotable="true" Enabled="true">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="@MPID@.@ClassName@.Class">
+            <Property TypeID="System!System.Entity" PropertyID="DisplayName"/>
+            <Property TypeID="Windows!Microsoft.Windows.Computer" PropertyID="PrincipalName"/>
+            <Property TypeID="@MPID@.@ClassName@.Class" PropertyID="@Property1Name@"/>
+            <Property TypeID="@MPID@.@ClassName@.Class" PropertyID="@Property2Name@"/>
+            <Property TypeID="@MPID@.@ClassName@.Class" PropertyID="@Property3Name@"/>
+          </DiscoveryClass>
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.FilteredRegistryDiscoveryProvider">
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+          <RegistryAttributeDefinitions>
+            <RegistryAttributeDefinition>
+              <AttributeName>@DiscoveryRegistryKeyName@Exists</AttributeName>
+              <Path>@SubKey@\@DiscoveryRegistryKeyPath@\@DiscoveryRegistryKeyName@</Path>
+              <PathType>0</PathType>
+              <AttributeType>0</AttributeType>
+            </RegistryAttributeDefinition>
+            <RegistryAttributeDefinition>
+              <AttributeName>@Property1RegistryKeyName@Property</AttributeName>
+              <Path>@SubKey@\@Property1RegistryKeyPath@\@Property1RegistryKeyName@</Path>
+              <PathType>1</PathType>
+              <AttributeType>@Property1AttributeType@</AttributeType>
+            </RegistryAttributeDefinition>
+             <RegistryAttributeDefinition>
+              <AttributeName>@Property2RegistryKeyName@Property</AttributeName>
+              <Path>@SubKey@\@Property2RegistryKeyPath@\@Property2RegistryKeyName@</Path>
+              <PathType>1</PathType>
+              <AttributeType>@Property2AttributeType@</AttributeType>
+            </RegistryAttributeDefinition>
+            <RegistryAttributeDefinition>
+              <AttributeName>@Property3RegistryKeyName@Property</AttributeName>
+              <Path>@SubKey@\@Property3RegistryKeyPath@\@Property3RegistryKeyName@</Path>
+              <PathType>1</PathType>
+              <AttributeType>@Property3AttributeType@</AttributeType>
+            </RegistryAttributeDefinition>
+          </RegistryAttributeDefinitions>
+          <Frequency>@Frequency@</Frequency>
+          <ClassId>$MPElement[Name="@MPID@.@ClassName@.Class"]$</ClassId>
+          <InstanceSettings>
+            <Settings>
+              <Setting>
+                <Name>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Name>
+                <Value>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name="System!System.Entity"]/DisplayName$</Name>
+                <Value>@DisplayName@</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name="@MPID@.@ClassName@.Class"]/@Property1Name@$</Name>
+                <Value>$Data/Values/@Property1RegistryKeyName@Property$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name="@MPID@.@ClassName@.Class"]/@Property2Name@$</Name>
+                <Value>$Data/Values/@Property2RegistryKeyName@Property$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name="@MPID@.@ClassName@.Class"]/@Property3Name@$</Name>
+                <Value>$Data/Values/@Property3RegistryKeyName@Property$</Value>
+              </Setting>
+            </Settings>
+          </InstanceSettings>
+          <Expression>
+            <SimpleExpression>
+              <ValueExpression>
+                <XPathQuery Type="Boolean">Values/@DiscoveryRegistryKeyName@Exists</XPathQuery>
+              </ValueExpression>
+              <Operator>Equal</Operator>
+              <ValueExpression>
+                <Value Type="Boolean">true</Value>
+              </ValueExpression>
+            </SimpleExpression>
+          </Expression>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@ClassName@.Discovery">
+          <Name>Discovers @ClassName@</Name>
+          <Description>Discovers objects of class '@MPID@.@ClassName@.Class'. It checks for the existance of HKLM\SOFTWARE\@DiscoveryRegistryKeyPath@\@DiscoveryRegistryKeyName@.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

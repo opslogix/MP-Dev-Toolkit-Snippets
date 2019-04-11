@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>14.0</OldToolsVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{BCF95C1E-9BF6-427C-8859-B15252B86D74}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpsLogix_MP_Dev_Toolkit_Snippets</RootNamespace>
+    <AssemblyName>OpsLogix MP Dev Toolkit Snippets</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <GeneratePkgDefFile>false</GeneratePkgDefFile>
+    <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DeployExtension>False</DeployExtension>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OpsLogixMPDevToolkit.pkgdef">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Computer Role\ComputerRole1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Computer Role\ComputerRole2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Computer Role\ComputerRole3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Application Component\ApplicationComponent1PropertyHosted.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Application Component\ApplicationComponent1PropertyHostedWithDepMon.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Application Component\ApplicationComponent2PropertyHosted.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Application Component\ApplicationComponent2PropertyHostedWithDepMon.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Application Component\ApplicationComponent3PropertyHosted.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Application Component\ApplicationComponent3PropertyHostedWithDepMon.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Local Application\LocalApplication0Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Local Application\LocalApplication1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Local Application\LocalApplication2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Local Application\LocalApplication3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Group\ComputerGroup.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Group\InstanceGroup.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Network Node\NetworkNode3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Network Node\NetworkNode2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Network Node\NetworkNode1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Network Node\NetworkNode0Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Other\ClassProperty.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Other\Relationship.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryComputerRole0Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryComputerRole1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryComputerRole2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryComputerRole3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryLocalApplication0Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryLocalApplication1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryLocalApplication2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryLocalApplication3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMIApplicationComponent1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMIComputerRole0Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMIComputerRole1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMIComputerRole2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMIComputerRole3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMILocalApplication0Properties.snippet">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMILocalApplication1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMILocalApplication2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMILocalApplication3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMIApplicationComponent2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\WMI\WMIApplicationComponent3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Group\ComputerGroup1Contained.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Group\ComputerGroup2Contained.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Group\ComputerGroup3Contained.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Group\InstanceGroup1Class.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Group\InstanceGroup2Class.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Group\InstanceGroup3Class.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Script\Script1Property1Parameter.snippet">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Script\Script1Property0Parameters.snippet">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Script\Script1Property3Parameters.snippet">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Script\Script1Property2Parameters.snippet">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryApplicationComponent1Property.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryApplicationComponent2Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\Registry\RegistryApplicationComponent3Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Presentation\Folder.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Presentation\StateView.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Presentation\StateViewGroup.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Presentation\AlertView.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Presentation\AlertViewClass.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Presentation\AlertViewGroup.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Presentation\EventView.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Collection Rules\WindowsEventlogCollectionRuleRange.snippet">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Collection Rules\WindowsEventlogCollectionRuleSpecific.snippet">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Collection Rules\ScriptPerformanceCollectionRule.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Collection Rules\WindowsPerformanceCollectionRule.snippet" />
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Alert Rules\WindowsEventlogAlertRule.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Alert Rules\WindowsEventlogRepeatingEventAlertRule.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Timed Script Rules\TimedSciptPowershell0param.snippet">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Timed Script Rules\TimedSciptPowershell1param.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Timed Script Rules\TimedSciptPowershell2param.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Rules\Timed Script Rules\TimedSciptPowershell3param.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Other\AggregateMonitor.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Other\DependencyMonitor.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Script\PowershellScriptMonitor0param.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Script\PowershellScriptMonitor1param.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Script\PowershellScriptMonitor2param.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Windows Eventlog\WindowsEventlogMonitorNoAlert.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Windows Eventlog\WindowsEventlogMonitor.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Windows Performance\WinPerformanceMonitorSimpleThresholdNoAlert.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Windows Performance\WinPerformanceMonitorSimpleThreshold.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Windows Process\WindowsProcessMonitorNoAlert.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Windows Process\WindowsProcessMonitor.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Windows Service\WindowsServiceMonitor.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\Windows Service\WindowsServiceMonitorNoAlert.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Presentation\PerformanceView.snippet">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Agent Tasks\Windows Service\StartStopService.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Agent Tasks\GenericCommandTask.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Snippets\XML\OpsLogixMPDevToolkit\Discoveries\SNMP\" />
+    <Folder Include="Snippets\XML\OpsLogixMPDevToolkit\Monitors\SNMP\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Snippets\XML\OpsLogixMPDevToolkit\Classes\Computer Role\ComputerRole0Properties.snippet">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

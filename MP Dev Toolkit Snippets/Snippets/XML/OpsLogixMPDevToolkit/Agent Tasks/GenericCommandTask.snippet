@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Generic Command Task</Title>
+    <Author>OpsLogix</Author>
+    <Shortcut></Shortcut>
+    <Description>Inserts a generic agent command task that can be configured to run any command.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassName</ID>
+        <ToolTip>Name of the class.</ToolTip>
+        <Default>ClassName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>The class that the view should be scoped on.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>NameProperty</ID>
+        <ToolTip>The property of the class that contains the service name.</ToolTip>
+        <Default>Name</Default>
+      </Literal>
+      <Literal>
+        <ID>CommandName</ID>
+        <ToolTip>Full path and command name.</ToolTip>
+        <Default>C:\WINDOWS\system32\sc.exe</Default>
+      </Literal>
+      <Literal>
+        <ID>CommandParameters</ID>
+        <ToolTip>Parameters for the command. You can use properties from the target with $Target/Property[Type="ClassName"]/PropertyName$ notation.</ToolTip>
+        <Default>Parameters</Default>
+      </Literal>
+      <Literal>
+        <ID>WorkingDirectory</ID>
+        <ToolTip>Working directory for the command.</ToolTip>
+        <Default>C:\WINDOWS\system32\</Default>
+      </Literal>
+      <Literal>
+        <ID>TaskName</ID>
+        <ToolTip>Name of the task.</ToolTip>
+        <Default>TaskName</Default>
+      </Literal>
+      <Literal>
+        <ID>TaskDisplayName</ID>
+        <ToolTip>The display name for the task. This is shown in the operations console.</ToolTip>
+        <Default>TaskDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>TaskDescription</ID>
+        <ToolTip>Short description of the task and the command it runs.</ToolTip>
+        <Default>TaskDescription</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Monitoring>
+    <Tasks>
+    <Task ID="@MPID@.@ClassName@.@TaskName@.Agent.Task" Accessibility="Public" 
+        Enabled="true" Target="@TargetClass@" Timeout="300" Remotable="true">
+        <Category>Custom</Category>
+        <WriteAction ID="PA" TypeID="System!System.CommandExecuter">
+          <ApplicationName>@CommandName@</ApplicationName>
+          <WorkingDirectory>@WorkingDirectory@</WorkingDirectory>
+          <CommandLine>@CommandParameters@</CommandLine>
+          <TimeoutSeconds>15</TimeoutSeconds>
+          <RequireOutput>true</RequireOutput>
+          <Files />
+        </WriteAction>
+      </Task>
+    </Tasks>
+  </Monitoring>
+   <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@ClassName@.@TaskName@.Agent.Task">
+            <Name>@TaskDisplayName@</Name>
+            <Description>@TaskDescription@</Description>
+          </DisplayString>
+        </DisplayStrings>
+      </LanguagePack>
+    </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Aggregate Rollup Monitor, No alert</Title>
+    <Author>OpsLogix</Author>
+    <Description>This creates a aggregate rollup monitor.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorName</ID>
+        <ToolTip>Replace with the description part of the monitor name.</ToolTip>
+        <Default>MonitorName</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorDisplayName</ID>
+        <ToolTip>DisplayName, what is shown in the Operations Console.</ToolTip>
+        <Default>MonitorDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>Parent Monitor</ID>
+        <ToolTip>The parent monitor under which this monitor will be located in the health explorer.</ToolTip>
+        <Default>Health!System.Health.AvailabilityState</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorDescription</ID>
+        <ToolTip>Short description of the monitor.</ToolTip>
+        <Default>MonitorDescription</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+    <![CDATA[<Monitoring>
+    <Monitors>
+      <AggregateMonitor  ID="@MPID@.@MonitorName@.AggregateMonitor" Accessibility="Internal" Enabled="true"
+                     Target="@TargetClass@" ParentMonitorID="@Parent Monitor@"
+                     Remotable="true" Priority="Normal">
+        <Category>AvailabilityHealth</Category>
+        <Algorithm>WorstOf</Algorithm>
+      </AggregateMonitor >
+    </Monitors>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@MonitorName@.AggregateMonitor">
+          <Name>@MonitorDisplayName@</Name>
+          <Description>@MonitorDescription@</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

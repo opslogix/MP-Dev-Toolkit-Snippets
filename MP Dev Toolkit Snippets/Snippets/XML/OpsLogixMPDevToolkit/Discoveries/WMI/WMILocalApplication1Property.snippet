@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>LocalApplication, WMI discovery, 1 Property</Title>
+      <Author>OpsLogix</Author>
+      <Description>
+        Inserts a WMI discovery of a Local Application Class. It runs the a WMI query and creates a new instance for each row in 
+        the result. It populates a property with a field returned from the query.
+      </Description>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>MPID</ID>
+          <ToolTip>The ID of the management pack.</ToolTip>
+          <Default>MPID</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ClassName</ID>
+          <ToolTip>Name of the class being discovered (minus MPID and class suffix).</ToolTip>
+          <Default>Class Name</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Property1Name</ID>
+          <ToolTip>This is the name of the property which will be populated by the discovery. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+          <Default>Property1Name</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>NameSpace</ID>
+          <ToolTip>The namespace against which the query will be run.</ToolTip>
+          <Default>ROOT\CIMV2</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>WMIQuery</ID>
+          <ToolTip>The WMI query that will be run.</ToolTip>
+          <Default>WMIQuery</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Frequency</ID>
+          <ToolTip>The frequency of the discovery, how often it should run.</ToolTip>
+          <Default>3600</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Field1Name</ID>
+          <ToolTip>This is the name of the field returned from the query. For example, a query which says 'Select Name Where...' you should put 'Name' here.</ToolTip>
+          <Default>Field1Name</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>DisplayName</ID>
+          <ToolTip>DisplayName, what is shown in the Operations Console. Defaults to target display name.</ToolTip>
+          <Default>$Target/Property[Type="System!System.Entity"]/DisplayName$</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="xml" Delimiter="@">
+      <![CDATA[<Monitoring>
+    <Discoveries>
+      <Discovery ID="@MPID@.@ClassName@.Discovery" Enabled="true" Priority="Normal" Target="Windows!Microsoft.Windows.Server.Computer" Remotable="true">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="@MPID@.@ClassName@.Class">
+            <Property TypeID="@MPID@.@ClassName@.Class" PropertyID="@Property1Name@"/>
+          </DiscoveryClass>          
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.WmiProviderWithClassSnapshotDataMapper">
+          <NameSpace>\\$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$\@NameSpace@</NameSpace>
+          <Query>@WMIQuery@</Query>
+          <Frequency>@Frequency@</Frequency>
+          <ClassId>$MPElement[Name="@MPID@.@ClassName@.Class"]$</ClassId>
+          <InstanceSettings>
+            <Settings>
+              <Setting>
+                <Name>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Name>
+                <Value>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name="System!System.Entity"]/DisplayName$</Name>
+                <Value>@DisplayName@</Value>
+              </Setting>
+               <Setting>
+                <Name>$MPElement[Name="@MPID@.@ClassName@.Class"]/@Property1Name@$</Name>
+                <Value>$Data/Property[@@Name='@Field1Name@']$</Value>
+              </Setting>
+            </Settings>
+          </InstanceSettings>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+  </Monitoring>
+   <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@ClassName@.Discovery">
+          <Name>Discovers @ClassName@</Name>
+          <Description>Discovers objects of class '@MPID@.@ClassName@.Class'. It runs the following WMI query '@WMIQuery@'.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

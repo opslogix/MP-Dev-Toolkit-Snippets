@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Folder</Title>
+    <Author>OpsLogix</Author>
+    <Description>Inserts a folder.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>FolderName</ID>
+        <ToolTip>The name of the folder.</ToolTip>
+        <Default>Root</Default>
+      </Literal>
+      <Literal>
+        <ID>FolderDisplayName</ID>
+        <ToolTip>This is the name of the folder as it is shown in the operations console.</ToolTip>
+        <Default>Root</Default>
+      </Literal>
+      <Literal>
+        <ID>FolderDescription</ID>
+        <ToolTip>This is a short description of the folder.</ToolTip>
+        <Default>FolderDescription</Default>
+      </Literal>
+      <Literal>
+        <ID>ParentFolder</ID>
+        <ToolTip>This is the parent folder. Default directly in the montoring view.</ToolTip>
+        <Default>SC!Microsoft.SystemCenter.Monitoring.ViewFolder.Root</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Presentation>
+         <Folders>
+      <Folder ID="@MPID@.@FolderName@.Folder" Accessibility="Public" ParentFolder="@ParentFolder@" />
+    </Folders>
+    </Presentation>
+    <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@FolderName@.Folder">
+            <Name>@FolderDisplayName@</Name>
+            <Description>@FolderDescription@</Description>
+          </DisplayString>
+        </DisplayStrings>
+      </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

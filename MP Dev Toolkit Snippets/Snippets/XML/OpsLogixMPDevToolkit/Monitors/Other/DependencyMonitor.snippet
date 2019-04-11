@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Dependency Monitor</Title>
+    <Author>OpsLogix</Author>
+    <Description>This creates a dependency monitor.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>DependentClass</ID>
+        <ToolTip>The description part of the class name this monitor depends on.</ToolTip>
+        <Default>DependentClass</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>Property Path</ID>
+        <ToolTip>The path to the property. If its located on the target, remove host. But if the target i hosted by Win computer, leave it.</ToolTip>
+        <Default>Host/</Default>
+      </Literal>
+      <Literal>
+        <ID>Parent Monitor</ID>
+        <ToolTip>The parent monitor under which this monitor will be located in the health explorer.</ToolTip>
+        <Default>Health!System.Health.AvailabilityState</Default>
+      </Literal>
+      <Literal>
+        <ID>Relationship</ID>
+        <ToolTip>The relationship that defines the monitor. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>Relationship</Default>
+      </Literal>
+      <Literal>
+        <ID>MemberMonitor</ID>
+        <ToolTip>Which monitor the dependency monitor gets its health from.</ToolTip>
+        <Default>Health!System.Health.AvailabilityState</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorDescription</ID>
+        <ToolTip>Short description of the monitor.</ToolTip>
+        <Default>MonitorDescription</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+    <![CDATA[<Monitoring>
+    <Monitors>
+      <DependencyMonitor ID="@MPID@.@DependentClass@.DependencyMonitor" Accessibility="Internal" Enabled="true"
+                     Target="@TargetClass@" ParentMonitorID="@Parent Monitor@"
+                     Remotable="true" Priority="Normal"
+                     RelationshipType="@Relationship@"
+                     MemberMonitor="@MemberMonitor@">
+        <Category>Custom</Category>
+        <Algorithm>WorstOf</Algorithm>
+        <MemberUnAvailable>Error</MemberUnAvailable>
+      </DependencyMonitor>
+    </Monitors>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@DependentClass@.DependencyMonitor">
+          <Name>@DependentClass@</Name>
+          <Description>@MonitorDescription@</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

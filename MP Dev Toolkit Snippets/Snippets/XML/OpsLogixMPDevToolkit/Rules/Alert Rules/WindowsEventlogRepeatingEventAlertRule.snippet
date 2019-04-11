@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Alert, Windows Eventlog, Repeating event</Title>
+    <Author>OpsLogix</Author>
+    <Description>This insert an repeating event alerting rule.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleName</ID>
+        <ToolTip></ToolTip>
+        <Default>RuleName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleDisplayName</ID>
+        <ToolTip></ToolTip>
+        <Default>RuleDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleDescription</ID>
+        <ToolTip></ToolTip>
+        <Default>RuleDescription</Default>
+      </Literal>
+      <Literal>
+        <ID>UnhealthyLogName</ID>
+        <ToolTip>UnhealthyLogName</ToolTip>
+        <Default>UnhealthyLogName</Default>
+      </Literal>
+      <Literal>
+        <ID>Property Path</ID>
+        <ToolTip>The path to the property. If its located on the target, remove host. But if the target i hosted by Win computer, leave it.</ToolTip>
+        <Default>Host/</Default>
+      </Literal>
+      <Literal>
+        <ID>UnhealthyEventSource</ID>
+        <ToolTip>UnhealthyEventSource</ToolTip>
+        <Default>UnhealthyEventSource</Default>
+      </Literal>
+      <Literal>
+        <ID>UnhealthyEventID</ID>
+        <ToolTip>UnhealthyEventID.</ToolTip>
+        <Default>UnhealthyEventID</Default>
+      </Literal>
+      <Literal>
+        <ID>SummaryText</ID>
+        <ToolTip>Short summary of the rule and the alert.</ToolTip>
+        <Default>Summary text</Default>
+      </Literal>
+      <Literal>
+        <ID>ResolutionText</ID>
+        <ToolTip>Short description of the actions to take when this alert is generated.</ToolTip>
+        <Default>Resolution text</Default>
+      </Literal>
+      <Literal>
+        <ID>Interval</ID>
+        <ToolTip>Time frame for event count, in seconds.</ToolTip>
+        <Default>60</Default>
+      </Literal>
+      <Literal>
+        <ID>EventCount</ID>
+        <ToolTip>Number of events.</ToolTip>
+        <Default>10</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Monitoring>
+    <Rules>
+      <Rule ID="@MPID@.@RuleName@.Alert.Rule" Target="@TargetClass@" Enabled="true">
+      <Category>Custom</Category>
+      <DataSources>
+        <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.EventProvider">
+        <ComputerName>$Target/@Property Path@Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        <LogName>@UnhealthyLogName@</LogName>
+        <Expression>
+          <And>
+            <Expression>
+              <SimpleExpression>
+                <ValueExpression>
+                  <XPathQuery Type="String">PublisherName</XPathQuery>
+                </ValueExpression>
+                <Operator>Equal</Operator>
+                <ValueExpression>
+                  <Value Type="String">@UnhealthyEventSource@</Value>
+                </ValueExpression>
+              </SimpleExpression>
+            </Expression>
+            <Expression>
+              <SimpleExpression>
+                <ValueExpression>
+                  <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                </ValueExpression>
+                <Operator>Equal</Operator>
+                <ValueExpression>
+                  <Value Type="UnsignedInteger">@UnhealthyEventID@</Value>
+                </ValueExpression>
+              </SimpleExpression>
+            </Expression>
+          </And>
+        </Expression>
+        </DataSource>
+      </DataSources>
+      <ConditionDetection ID="CD" TypeID="System!System.ConsolidatorCondition">
+          <Consolidator>
+            <ConsolidationProperties />
+            <TimeControl>
+              <WithinTimeSchedule>
+                <Interval>@Interval@</Interval>
+              </WithinTimeSchedule>
+            </TimeControl>
+            <CountingCondition>
+              <Count>@EventCount@</Count>
+              <CountMode>OnNewItemTestOutputRestart_OnTimerSlideByOne</CountMode>
+            </CountingCondition>
+          </Consolidator>
+        </ConditionDetection>
+      <WriteActions>
+        <WriteAction ID="GenerateAlert" TypeID="Health!System.Health.GenerateAlert">
+          <Priority>0</Priority>
+          <Severity>0</Severity>
+          <AlertMessageId>$MPElement[Name="@MPID@.@RuleName@.Alert.Rule.AlertMessage"]$</AlertMessageId>
+          <AlertParameters>
+            <AlertParameter1>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</AlertParameter1>
+            <AlertParameter2>$Data/EventDisplayNumber$</AlertParameter2>
+            <AlertParameter3>$Data/EventDescription$</AlertParameter3>
+            <AlertParameter4>$Data/Count$</AlertParameter4>
+            <AlertParameter5>$Data/TimeWindowStart$</AlertParameter5>
+            <AlertParameter6>$Data/TimeWindowEnd$</AlertParameter6>
+          </AlertParameters>
+          <Suppression>
+            <SuppressionValue/>
+          </Suppression>
+          <Custom1>$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/NetworkName$</Custom1>
+        </WriteAction>
+      </WriteActions>
+      </Rule>
+    </Rules>
+    </Monitoring>
+    <Presentation>
+      <StringResources>
+        <StringResource ID="@MPID@.@RuleName@.Alert.Rule.AlertMessage" />
+      </StringResources>
+    </Presentation>
+    <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@RuleName@.Alert.Rule">
+            <Name>@RuleDisplayName@</Name>
+            <Description>@RuleDescription@</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@RuleName@.Alert.Rule.AlertMessage">
+            <Name>EventID @UnhealthyEventID@' has occured multiple times.</Name>
+            <Description>EventID @UnhealthyEventID@' from source 
+            '@UnhealthyEventSource@' has been found in the @UnhealthyLogName@ log on computer {0}. It has occured {5} times between {6} and {7}.
+
+Event details: {2}</Description>
+         </DisplayString>
+        </DisplayStrings>
+         <KnowledgeArticles>
+        <KnowledgeArticle ElementID="@MPID@.@RuleName@.Alert.Rule" Visible="true">
+          <MamlContent xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+            <maml:section>
+              <maml:title>Summary</maml:title>
+              <maml:para>@SummaryText@</maml:para>
+            </maml:section>
+          
+            <maml:section>
+              <maml:title>Resolution</maml:title>
+              <maml:para>@ResolutionText@</maml:para>
+            </maml:section>
+          </MamlContent>
+        </KnowledgeArticle>
+      </KnowledgeArticles>
+      </LanguagePack>
+    </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>
