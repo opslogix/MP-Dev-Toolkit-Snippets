@@ -12,7 +12,7 @@ These aim to ease the authoring of managament packs. Below is a short descriptio
 ## Management Pack Content
 These documents describes a number of rules and recommendations when creating management packs. Following these rules makes the authoring much simpler and when paired with the snippets a lot of things *just works*. 
 
-Click to open the [Management Pack Content](content_toc.html) documents
+Click to open the [Management Pack Content](https://github.com/opslogix/MP-Dev-Toolkit-Snippets/wiki/content_toc.html) documents
 
 
 ## MP Authoring Snippets 
