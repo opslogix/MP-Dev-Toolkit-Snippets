@@ -16,7 +16,7 @@ Click to open the [Management Pack Content](https://github.com/opslogix/MP-Dev-T
 
 
 ## MP Authoring Snippets 
-This is a Visual Studio Extension that contains a number of XML snippets to make it easier to author management packs. You donÃ‚Â´t need to remember all that XML code. Just insert the snippet and fill out a number of fields.
+This is a Visual Studio Extension that contains a number of XML snippets to make it easier to author management packs. You don't need to remember all that XML code. Just insert the snippet and fill out a number of fields.
 
 
 ## MP Authoring Snippets Guides
