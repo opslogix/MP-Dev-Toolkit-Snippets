@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Script discovery, 0 Parameters</Title>
+      <Author>OpsLogix</Author>
+      <Description>
+        Inserts a script discovery of a Class. It runs the a script and creates one or more instances.
+      </Description>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>      
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>MPID</ID>
+          <ToolTip>The ID of the management pack.</ToolTip>
+          <Default>MPID</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ClassName</ID>
+          <ToolTip>Name of the class being discovered (minus MPID and class suffix).</ToolTip>
+          <Default>Class Name</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>TargetClass</ID>
+          <ToolTip>The target class agains which the discovery will be run. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+          <Default>Windows!Microsoft.Windows.Server.Computer</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Frequency</ID>
+          <ToolTip>The frequency of the discovery, how often it should run.</ToolTip>
+          <Default>14400</Default>
+        </Literal>
+        <Literal>
+          <ID>PrincipalNamePropertyPath</ID>
+          <ToolTip>This is the path to the PrinicipalName property. Depending on you target class you can need one or more 'Host' expressions in the path.</ToolTip>
+          <Default>Host/</Default>
+        </Literal>
+        <Literal>
+          <ID>ScriptName</ID>
+          <ToolTip>This is the name of the powershell script.</ToolTip>
+          <Default>ScriptName</Default>
+        </Literal>
+        <Literal>
+          <ID>ClassProperty1Name</ID>
+          <ToolTip>The name of the property that the discovery populates.</ToolTip>
+          <Default>ClassProperty1Name</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="xml" Delimiter="@">
+      <![CDATA[<TypeDefinitions>
+    <ModuleTypes>
+     <DataSourceModuleType ID="@MPID@.@ClassName@.Discovery.DS" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <xsd:element name="sourceID" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="managedEntityId" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="computerName" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="IntervalSeconds" type="xsd:integer" minOccurs="1"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Schedule" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime></SyncTime>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="@MPID@.@ClassName@.Discovery.PA">
+                <sourceID>$Config/sourceID$</sourceID>
+                <managedEntityId>$Config/managedEntityId$</managedEntityId>
+                <computerName>$Config/computerName$</computerName>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="Probe">
+                <Node ID="Schedule"></Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+      </DataSourceModuleType>
+      <ProbeActionModuleType ID="@MPID@.@ClassName@.Discovery.PA" 
+      Accessibility="Internal" PassThrough="false" Batching="false">
+        <Configuration>
+          <xsd:element name="sourceID" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="managedEntityId" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="computerName" type="xsd:string" minOccurs="1"/>
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PS" TypeID="Windows!Microsoft.Windows.PowerShellDiscoveryProbe">
+                <ScriptName>@ScriptName@.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/@ScriptName@.ps1$</ScriptBody>
+                <Parameters>
+                  <Parameter>
+                    <Name>sourceID</Name>
+                    <Value>$Config/sourceID$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>managedEntityId</Name>
+                    <Value>$Config/managedEntityId$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>computerName</Name>
+                    <Value>$Config/computerName$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>300</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PS"></Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+    </ModuleTypes>    
+  </TypeDefinitions>
+  <Monitoring>
+    <Discoveries>
+      <Discovery ID="@MPID@.@ClassName@.Discovery" Target="@TargetClass@" Enabled="true">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="@MPID@.@ClassName@.Class">
+            <Property TypeID="@MPID@.@ClassName@.Class" PropertyID="ClassProperty1Name"/>
+            <!-- If the script populates more properties on the instance, enter them here. -->
+            <!-- <Property TypeID="@MPID@.@ClassName@.Class" PropertyID=""/> -->
+          </DiscoveryClass>
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="@MPID@.@ClassName@.Discovery.DS">
+          <sourceID>$MPElement$</sourceID>
+          <managedEntityId>$Target/Id$</managedEntityId>
+          <computerName>$Target/@PrincipalNamePropertyPath@Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</computerName>
+          <IntervalSeconds>3600</IntervalSeconds>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+  </Monitoring>
+   <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@ClassName@.Discovery">
+          <Name>Discovers @ClassName@</Name>
+          <Description>Discovers objects of class '@MPID@.@ClassName@.Class'. It runs the '@ScriptName@.ps1' script.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>State View, scoped on class and group</Title>
+    <Author>OpsLogix</Author>
+    <Description>Inserts a state view scoped on a class and a group.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassName</ID>
+        <ToolTip>Name of the class.</ToolTip>
+        <Default>ClassName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>The class that the view should be scoped on.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>Folder</ID>
+        <ToolTip>This is the name of the folder in which the view should be placed.</ToolTip>
+        <Default>Folder</Default>
+      </Literal> 
+      <Literal>
+        <ID>ViewDisplayName</ID>
+        <ToolTip>The display name of the view, this is what's shown in the operations console.</ToolTip>
+        <Default>ViewDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>ViewDescription</ID>
+        <ToolTip>A short description of the view.</ToolTip>
+        <Default>ViewDescription</Default>
+      </Literal>
+      <Literal>
+        <ID>GroupName</ID>
+        <ToolTip>The name of the group to scope the view on.</ToolTip>
+        <Default>GroupName</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Presentation>
+      <Views>
+      <View ID="@MPID@.@ClassName@.State.View" Accessibility="Public" Enabled="true" 
+            Target="@TargetClass@"
+            TypeID="SC!Microsoft.SystemCenter.StateViewType" Visible="true">
+        <Category>Operations</Category>
+        <Criteria />
+        <Presentation>
+          <ColumnInfo Index="0" SortIndex="0" Width="100" Grouped="false" Sorted="true" IsSortable="true" Visible="true" SortOrder="Descending">
+            <Name>State</Name>
+            <Id>@MPID@.@ClassName@.Class</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="1" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+            <Name>Maintenance Mode</Name>
+            <Id>InMaintenanceMode</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="2" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+            <Name>Name</Name>
+            <Id>Name</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="3" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+            <Name>Path</Name>
+            <Id>Path</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="4" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="false" SortOrder="Ascending">
+            <Name>Display Name</Name>
+            <Id>System.Entity/DisplayName</Id>
+          </ColumnInfo>
+        </Presentation>
+        <Target>$MPElement[Name="@MPID@.@GroupName@.Group"]$</Target>
+      </View>
+    </Views>
+    <FolderItems>
+      <FolderItem ElementID="@MPID@.@ClassName@.State.View" 
+                  ID="@MPID@.@ClassName@.State.View.FolderItem" 
+                  Folder="@Folder@" />
+    </FolderItems>
+    </Presentation>
+     <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@ClassName@.State.View">
+            <Name>@ViewDisplayName@</Name>
+            <Description>@ViewDescription@</Description>
+          </DisplayString>
+        </DisplayStrings>
+      </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

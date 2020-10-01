@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Event View</Title>
+    <Author>OpsLogix</Author>
+    <Description>This snippet inserts an event view.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ViewName</ID>
+        <ToolTip>Name of the view</ToolTip>
+        <Default>ViewName</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleName</ID>
+        <ToolTip>This is the name of the rule to collect the events from.</ToolTip>
+        <Default>RuleName</Default>
+      </Literal>
+      <Literal>
+        <ID>Folder</ID>
+        <ToolTip>This is the name of the folder in which the view should be placed.</ToolTip>
+        <Default>Folder</Default>
+      </Literal>
+      <Literal>
+        <ID>ViewDisplayName</ID>
+        <ToolTip>The display name of the view, this is what's shown in the operations console.</ToolTip>
+        <Default>ViewDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>ViewDescription</ID>
+        <ToolTip>A short description of the view.</ToolTip>
+        <Default>ViewDescription</Default>
+      </Literal>    
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[
+  <Presentation>
+    <Views>
+      <View ID="@MPID@.@ViewName@.Event.View" Accessibility="Public"
+            Enabled="true" Target="System!System.Entity" TypeID="SC!Microsoft.SystemCenter.EventViewType" Visible="true">
+        <Category>Operations</Category>
+        <Criteria>
+          <RuleList>
+            <Rule>$MPElement[Name='@MPID@.@RuleName@.Collection.Rule']$</Rule>
+          </RuleList>
+        </Criteria>
+        <Presentation>
+          <ColumnInfo Index="0" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+            <Name>Level</Name>
+            <Id>LevelId</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="1" SortIndex="0" Width="100" Grouped="false" Sorted="true" IsSortable="true" Visible="true" SortOrder="Descending">
+            <Name>Date and Time</Name>
+            <Id>TimeGenerated</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="2" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+            <Name>Source</Name>
+            <Id>PublisherName</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="3" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+            <Name>Name</Name>
+            <Id>MonitoringObjectDisplayName</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="5" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+            <Name>Event Number</Name>
+            <Id>Number</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="6" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="false" SortOrder="Ascending">
+            <Name>Log Name</Name>
+            <Id>Channel</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="7" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="false" SortOrder="Ascending">
+            <Name>Logging Computer</Name>
+            <Id>LoggingComputer</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="8" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="false" SortOrder="Ascending">
+            <Name>Rule Name</Name>
+            <Id>RuleDisplayName</Id>
+          </ColumnInfo>
+        </Presentation>
+        <Target />
+      </View>
+    </Views>
+    <FolderItems>
+      <FolderItem ID="@MPID@.@ViewName@.FolderItem"
+                  ElementID="@MPID@.@ViewName@.Event.View"
+                  Folder="@Folder@" />
+    </FolderItems>
+  </Presentation>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@ViewName@.Event.View">
+          <Name>@ViewDisplayName@</Name>
+          <Description>@ViewDescription@</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

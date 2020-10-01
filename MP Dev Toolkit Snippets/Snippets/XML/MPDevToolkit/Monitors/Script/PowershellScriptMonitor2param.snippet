@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>PS script, 2 parameters, Unit Monitor</Title>
+    <Author>OpsLogix</Author>
+    <Description>This snippet creates a probe action, data source, monitor type and a monitor that runs a script.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ScriptName</ID>
+        <ToolTip>Replace with the name of the script.</ToolTip>
+        <Default>ScriptName</Default>
+      </Literal>
+      <Literal>
+        <ID>ParameterName1</ID>
+        <ToolTip>Replace with the name of the first script parameter.</ToolTip>
+        <Default>ParameterName1</Default>
+      </Literal>
+      <Literal>
+        <ID>ParameterName2</ID>
+        <ToolTip>Replace with the name of the second script parameter.</ToolTip>
+        <Default>ParameterName2</Default>
+      </Literal>
+      <Literal>
+        <ID>Parameter1DefaultValue</ID>
+        <ToolTip>This is the default value of the first parameter.</ToolTip>
+        <Default>DefaultValue</Default>
+      </Literal>
+      <Literal>
+        <ID>Parameter2DefaultValue</ID>
+        <ToolTip>This is the default value of the second parameter.</ToolTip>
+        <Default>DefaultValue</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>IntervalSeconds</ID>
+        <ToolTip>How often (in seconds) the script should run.</ToolTip>
+        <Default>3600</Default>
+      </Literal>
+      <Literal>
+        <ID>OutputParameter1</ID>
+        <ToolTip>This is one of the properties in the property bag and is used in the alert text.</ToolTip>
+        <Default>ScriptOutputParameter</Default>
+      </Literal>
+      <Literal>
+        <ID>OutputParameter2</ID>
+        <ToolTip>This is one of the properties in the property bag and is used in the alert text.</ToolTip>
+        <Default>ScriptOutputParameter</Default>
+      </Literal>
+      <Literal>
+        <ID>OutputParameter3</ID>
+        <ToolTip>This is one of the properties in the property bag and is used in the alert text.</ToolTip>
+        <Default>ScriptOutputParameter</Default>
+      </Literal>
+      <Literal>
+        <ID>SummaryText</ID>
+        <ToolTip>Short summary of the monitor and the alert.</ToolTip>
+        <Default>Summary text</Default>
+      </Literal>
+      <Literal>
+        <ID>ResolutionText</ID>
+        <ToolTip>Short description of the actions to take when this monitor turns unhealthy.</ToolTip>
+        <Default>Resolution text</Default>
+      </Literal>
+      <Literal>
+        <ID>TimeoutSeconds</ID>
+        <ToolTip>Timeout of the script, in seconds. </ToolTip>
+        <Default>300</Default>
+      </Literal>
+      <Literal>
+        <ID>ParentMonitor</ID>
+        <ToolTip>The parent monitor under which this monitor will be located in the health explorer.</ToolTip>
+        <Default>Health!System.Health.AvailabilityState</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<TypeDefinitions>
+       <ModuleTypes>
+       <DataSourceModuleType ID="@MPID@.@ScriptName@.Script.DS" Accessibility="Internal" Batching="false">
+          <Configuration>
+            <xsd:element name="@ParameterName1@" type="xsd:string" minOccurs="1"/> 
+            <xsd:element name="@ParameterName2@" type="xsd:string" minOccurs="1"/>
+            <xsd:element name="IntervalSeconds" type="xsd:integer" minOccurs="1"/>
+          </Configuration>
+          <OverrideableParameters>
+            <OverrideableParameter ID="@ParameterName1@" Selector="$Config/@ParameterName1@$" ParameterType="string"/>
+            <OverrideableParameter ID="@ParameterName2@" Selector="$Config/@ParameterName2@$" ParameterType="string"/>
+            <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          </OverrideableParameters>
+          <ModuleImplementation Isolation="Any">
+            <Composite>
+              <MemberModules>
+                <DataSource ID="Schedule" TypeID="System!System.SimpleScheduler">
+                  <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                  <SyncTime></SyncTime>
+                </DataSource>
+                <ProbeAction ID="Probe" TypeID="@MPID@.@ScriptName@.Script.PA">
+                  <@ParameterName1@>$Config/@ParameterName1@$</@ParameterName1@>
+                  <@ParameterName2@>$Config/@ParameterName2@$</@ParameterName2@>
+                </ProbeAction>
+              </MemberModules>
+              <Composition>
+                <Node ID="Probe">
+                  <Node ID="Schedule"></Node>
+                </Node>
+              </Composition>
+            </Composite>
+          </ModuleImplementation>
+          <OutputType>System!System.PropertyBagData</OutputType>
+        </DataSourceModuleType>
+        <ProbeActionModuleType ID="@MPID@.@ScriptName@.Script.PA" Accessibility="Internal" PassThrough="false" Batching="false">
+          <Configuration>
+            <xsd:element name="@ParameterName1@" type="xsd:string" minOccurs="1"/>
+            <xsd:element name="@ParameterName2@" type="xsd:string" minOccurs="1"/>
+          </Configuration>
+          <ModuleImplementation Isolation="Any">
+            <Composite>
+              <MemberModules>
+                <ProbeAction ID="PS" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagProbe">
+                  <ScriptName>@ScriptName@.ps1</ScriptName>
+                  <ScriptBody>$IncludeFileContent/Scripts/@ScriptName@.ps1$</ScriptBody>
+                  <Parameters>
+                    <Parameter>
+                      <Name>@ParameterName1@</Name>
+                      <Value>$Config/@ParameterName1@$</Value>
+                    </Parameter>
+                    <Parameter>
+                      <Name>@ParameterName2@</Name>
+                      <Value>$Config/@ParameterName2@$</Value>
+                    </Parameter>
+                  </Parameters>
+                  <TimeoutSeconds>@TimeoutSeconds@</TimeoutSeconds>
+                </ProbeAction>
+              </MemberModules>
+              <Composition>
+                <Node ID="PS"></Node>
+              </Composition>
+            </Composite>
+          </ModuleImplementation>
+          <OutputType>System!System.PropertyBagData</OutputType>
+          <InputType>System!System.BaseData</InputType>
+        </ProbeActionModuleType>
+        </ModuleTypes>
+        <MonitorTypes>
+      <UnitMonitorType ID="@MPID@.@ScriptName@.Script.MT" Accessibility="Internal">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="Success" NoDetection="false"/>
+          <MonitorTypeState ID="Error" NoDetection="false"/>
+        </MonitorTypeStates>
+        <Configuration>
+          <xsd:element name="@ParameterName1@" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="@ParameterName2@" type="xsd:string" minOccurs="1"/>
+          <xsd:element name="IntervalSeconds" type="xsd:integer" minOccurs="1"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="@ParameterName1@" Selector="$Config/@ParameterName1@$" ParameterType="string"/>
+          <OverrideableParameter ID="@ParameterName2@" Selector="$Config/@ParameterName2@$" ParameterType="string"/>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="DS" TypeID="@MPID@.@ScriptName@.Script.DS">
+              <@ParameterName1@>$Config/@ParameterName1@$</@ParameterName1@>
+              <@ParameterName2@>$Config/@ParameterName2@$</@ParameterName2@>
+              <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+            </DataSource>
+            <ConditionDetection ID="FilterSuccess" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Property[@@Name='ScriptResult']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">GOOD</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="FilterFailure" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Property[@@Name='ScriptResult']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">BAD</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="Success">
+              <Node ID="FilterSuccess">
+                <Node ID="DS"></Node>
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Error">
+              <Node ID="FilterFailure">
+                <Node ID="DS"></Node>
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>
+      </TypeDefinitions>
+      <Monitoring>
+    <Monitors>
+      <UnitMonitor ID="@MPID@.@ScriptName@.Script.UnitMonitor" Enabled="true" TypeID="@MPID@.@ScriptName@.Script.MT" 
+                  Target="@TargetClass@" Accessibility="Internal" ParentMonitorID="@ParentMonitor@">
+        <Category>Operations</Category>
+        <AlertSettings AlertMessage="@MPID@.@ScriptName@.Script.UnitMonitor.AlertMessage">
+          <AlertOnState>Error</AlertOnState>
+          <AutoResolve>true</AutoResolve>
+          <AlertPriority>Normal</AlertPriority>
+          <AlertSeverity>Error</AlertSeverity>
+          <AlertParameters>
+            <AlertParameter1>$Data/Context/Property[@@Name='ErrorMessage']$</AlertParameter1>
+            <AlertParameter2>$Data/Context/Property[@@Name='@OutputParameter1@']$</AlertParameter2>
+            <AlertParameter3>$Data/Context/Property[@@Name='@OutputParameter2@']$</AlertParameter3>
+            <AlertParameter4>$Data/Context/Property[@@Name='@OutputParameter3@']$</AlertParameter4>
+          </AlertParameters>
+        </AlertSettings>
+        <OperationalStates>
+          <OperationalState ID="Unhealthy" MonitorTypeStateID="Error" HealthState="Error"/>
+          <OperationalState ID="Healthy" MonitorTypeStateID="Success" HealthState="Success"/>
+        </OperationalStates>
+        <Configuration>
+          <@ParameterName1@>@Parameter1DefaultValue@</@ParameterName1@>
+          <@ParameterName2@>@Parameter2DefaultValue@</@ParameterName2@>
+          <IntervalSeconds>@IntervalSeconds@</IntervalSeconds>
+        </Configuration>
+      </UnitMonitor>
+    </Monitors>
+  </Monitoring>
+   <Presentation>
+    <StringResources>
+      <StringResource ID="@MPID@.@ScriptName@.Script.UnitMonitor.AlertMessage"></StringResource>
+    </StringResources>
+  </Presentation>
+  <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@ScriptName@.Script.PA" >
+            <Name>@ScriptName@ Probe Action</Name>
+            <Description>This is a probe action that runs the @ScriptName@.ps1 script.</Description>
+          </DisplayString>
+            <DisplayString ElementID="@MPID@.@ScriptName@.Script.DS">
+            <Name>@ScriptName@ Data Source</Name>
+            <Description>This is the data source that runs the @ScriptName@.ps1 script.</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ScriptName@.Script.DS" SubElementID="IntervalSeconds">
+            <Name>IntervalSeconds</Name>
+            <Description>IntervalSeconds</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ScriptName@.Script.DS" SubElementID="@ParameterName1@">
+            <Name>@ParameterName1@</Name>
+            <Description>@ParameterName1@</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ScriptName@.Script.DS" SubElementID="@ParameterName2@">
+            <Name>@ParameterName2@</Name>
+            <Description>@ParameterName2@</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ScriptName@.Script.MT">
+            <Name>@ScriptName@ Monitor Type</Name>
+            <Description>This is the monitor type that runs the @ScriptName@.ps1 script.</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ScriptName@.Script.UnitMonitor">
+            <Name>@ScriptName@ Monitor</Name>
+            <Description>This is the monitor type that runs the @ScriptName@.ps1 script.</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ScriptName@.Script.UnitMonitor.AlertMessage">
+            <Name>@ScriptName@ Monitor is in an error state.</Name>
+            <Description>The monitor which runs the @ScriptName@.ps1 script is in an error state. Error Message: {0}.</Description>
+            <!--
+              To insert parameters from the property bag, use {x} for each parameter specified under <AlertParameters> (see further up).
+              AlertParameter1 = {0}
+              AlertParameter2 = {1}
+              ...
+            -->
+          </DisplayString>
+        </DisplayStrings>
+          <KnowledgeArticles>
+        <KnowledgeArticle ElementID="@MPID@.@ScriptName@.Script.UnitMonitor" Visible="true">
+          <MamlContent xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+            <maml:section>
+              <maml:title>Summary</maml:title>
+              <maml:para>@SummaryText@</maml:para>
+            </maml:section>
+            <maml:section>
+              <maml:title>Causes</maml:title>
+              <maml:para>@CausesText@</maml:para>
+            </maml:section>
+            <maml:section>
+              <maml:title>Configuration</maml:title>
+              <maml:para>@ConfigurationText@</maml:para>
+            </maml:section>
+            <maml:section>
+              <maml:title>Resolution</maml:title>
+              <maml:para>@ResolutionText@</maml:para>
+            </maml:section>
+          </MamlContent>
+        </KnowledgeArticle>
+      </KnowledgeArticles>
+      </LanguagePack>
+  </LanguagePacks>]]></Code>
+  </Snippet>
+</CodeSnippet>

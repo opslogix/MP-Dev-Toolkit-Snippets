@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>TimedScript, Powershell, 2 parameters</Title>
+    <Author>OpsLogix</Author>
+    <Description>This rule runs a script at an interval.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ScriptName</ID>
+        <ToolTip>Replace with the name of the script.</ToolTip>
+        <Default>ScriptName</Default>
+      </Literal>
+      <Literal>
+        <ID>Parameter1Name</ID>
+        <ToolTip>Replace with the name of the parameter.</ToolTip>
+        <Default>Parameter1Name</Default>
+      </Literal>
+      <Literal>
+        <ID>Parameter1DefaultValue</ID>
+        <ToolTip>Replace with the vlaue of the parameter.</ToolTip>
+        <Default>Value</Default>
+      </Literal>
+      <Literal>
+        <ID>Parameter2Name</ID>
+        <ToolTip>Replace with the name of the parameter.</ToolTip>
+        <Default>Parameter1Name</Default>
+      </Literal>
+      <Literal>
+        <ID>Parameter2DefaultValue</ID>
+        <ToolTip>Replace with the vlaue of the parameter.</ToolTip>
+        <Default>Value</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>The target class agains which the rule will be run. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>TimeoutSeconds</ID>
+        <ToolTip>Timeout in seconds for the script.</ToolTip>
+        <Default>300</Default>
+      </Literal>
+      <Literal>
+        <ID>IntervalSeconds</ID>
+        <ToolTip>How often the rules should run, in seconds.</ToolTip>
+        <Default>14400</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleDisplayName</ID>
+        <ToolTip>DisplayName, what is shown in the Operations Console.</ToolTip>
+        <Default>RuleDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleDescription</ID>
+        <ToolTip>Short description of the rule.</ToolTip>
+        <Default>RuleDescription</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<TypeDefinitions>
+       <ModuleTypes>
+        <WriteActionModuleType ID="@MPID@.@ScriptName@.WA" Accessibility="Internal" Batching="false">
+          <Configuration>
+            <xsd:element name="TimeoutSeconds" type="xsd:int" minOccurs="1"/>
+            <xsd:element name="@Parameter1Name@" type="xsd:string" minOccurs="1"/>
+            <xsd:element name="@Parameter2Name@" type="xsd:string" minOccurs="1"/>
+          </Configuration>
+          <OverrideableParameters>
+            <OverrideableParameter ID="TimeoutSeconds" ParameterType="int" Selector="$Config/TimeoutSeconds$" />
+            <OverrideableParameter ID="@Parameter1Name@" ParameterType="string" Selector="$Config/@Parameter1Name@$" />
+            <OverrideableParameter ID="@Parameter2Name@" ParameterType="string" Selector="$Config/@Parameter2Name@$" />
+          </OverrideableParameters>
+          <ModuleImplementation Isolation="Any">
+            <Composite>
+            <MemberModules>
+              <WriteAction ID="PS" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
+                <ScriptName>@ScriptName@.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/@ScriptName@.ps1$</ScriptBody>
+                <Parameters>
+                  <Parameter>
+                    <Name>@Parameter1Name@</Name>
+                    <Value>$Config/@Parameter1Name@$</Value>
+                  </Parameter>
+                   <Parameter>
+                    <Name>@Parameter2Name@</Name>
+                    <Value>$Config/@Parameter2Name@$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>                
+              </WriteAction>
+              </MemberModules>
+              <Composition>
+                <Node ID="PS"></Node>
+              </Composition>
+              </Composite>
+            </ModuleImplementation>
+            <OutputType>Windows!Microsoft.Windows.SerializedObjectData</OutputType>
+            <InputType>System!System.BaseData</InputType>
+          </WriteActionModuleType>
+        </ModuleTypes>
+      </TypeDefinitions>
+      <Monitoring>
+        <Rules>
+           <Rule ID="@MPID@.@ScriptName@.Rule" Target="@TargetClass@" Enabled="true" ConfirmDelivery="true" Priority="Normal" DiscardLevel="100" Remotable="true">
+        <Category>Custom</Category>
+         <DataSources>
+              <DataSource ID="Schedule" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>@IntervalSeconds@</IntervalSeconds>
+                <SyncTime />
+              </DataSource>
+            </DataSources>
+        <WriteActions>
+          <WriteAction ID="PS" TypeID="@MPID@.@ScriptName@.WA">
+            <TimeoutSeconds>@TimeoutSeconds@</TimeoutSeconds>
+            <@Parameter1Name@>@Parameter1DefaultValue@</@Parameter1Name@>
+            <@Parameter1Name@>@Parameter2DefaultValue@</@Parameter1Name@>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+        </Rules>
+      </Monitoring>
+      <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@RuleName@.Collection.Rule">
+          <Name>@RuleDisplayName@</Name>
+          <Description>>@RuleDescription@</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

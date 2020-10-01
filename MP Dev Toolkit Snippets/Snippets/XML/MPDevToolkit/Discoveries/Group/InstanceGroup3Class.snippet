@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Instance Group, 3 classes</Title>
+      <Author>OpsLogix</Author>
+      <Description>This discovery populates a instance group with all objects of the supplied classes.</Description>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>MPID</ID>
+          <ToolTip>The ID of the management pack.</ToolTip>
+          <Default>MPID</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>GroupName</ID>
+          <ToolTip>Name of the group being populated (minus MPID and class suffix).</ToolTip>
+          <Default>GroupName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Class1Name</ID>
+          <ToolTip>Name of the class being used to populate the group (minus MPID and class suffix).</ToolTip>
+          <Default>ClassName</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Class2Name</ID>
+          <ToolTip>Name of the class being used to populate the group (minus MPID and class suffix).</ToolTip>
+          <Default>Class2Name</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Class3Name</ID>
+          <ToolTip>Name of the class being used to populate the group (minus MPID and class suffix).</ToolTip>
+          <Default>Class3Name</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="xml" Delimiter="@">
+        <![CDATA[  <Monitoring>
+    <Discoveries>
+    <Discovery ID="@MPID@.@GroupName@.Class.Discovery" Enabled="true" Target="@MPID@.@GroupName@.Class" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryRelationship TypeID="MSIL!Microsoft.SystemCenter.InstanceGroupContainsEntities" />
+        </DiscoveryTypes>
+        <DataSource ID="GroupPopulationDataSource" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+          <RuleId>$MPElement$</RuleId>
+          <GroupInstanceId>$MPElement[Name="@MPID@.@GroupName@.Class"]$</GroupInstanceId>
+          <MembershipRules>
+            <MembershipRule>
+              <MonitoringClass>$MPElement[Name="@MPID@.@Class1Name@.Class"]$</MonitoringClass>
+              <RelationshipClass>$MPElement[Name="MSIL!Microsoft.SystemCenter.InstanceGroupContainsEntities"]$</RelationshipClass>
+            </MembershipRule>
+             <MembershipRule>
+              <MonitoringClass>$MPElement[Name="@MPID@.@Class2Name@.Class"]$</MonitoringClass>
+              <RelationshipClass>$MPElement[Name="MSIL!Microsoft.SystemCenter.InstanceGroupContainsEntities"]$</RelationshipClass>
+            </MembershipRule>  
+            <MembershipRule>
+              <MonitoringClass>$MPElement[Name="@MPID@.@Class3Name@.Class"]$</MonitoringClass>
+              <RelationshipClass>$MPElement[Name="MSIL!Microsoft.SystemCenter.InstanceGroupContainsEntities"]$</RelationshipClass>
+            </MembershipRule>
+          </MembershipRules>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@GroupName@.Class.Discovery">
+          <Name>Populates @GroupName@</Name>
+          <Description>Populates @Class1Name@, @Class2Name@ and @Class3Name@ objects into '@GroupName@' group.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

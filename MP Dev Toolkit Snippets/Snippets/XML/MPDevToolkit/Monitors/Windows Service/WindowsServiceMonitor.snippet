@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Windows Service, Unit Monitor</Title>
+    <Author>OpsLogix</Author>
+    <Shortcut></Shortcut>
+    <Description>This creates a UnitMonitor to check if a Windows Service is running.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ServiceName</ID>
+        <ToolTip>Replace with the name of the service.</ToolTip>
+        <Default>ServiceName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>Property Path</ID>
+        <ToolTip>The path to the networkname property. If its located on the target, remove host. But if the target i hosted by Win computer, leave it.</ToolTip>
+        <Default>Host/</Default>
+      </Literal>
+      <Literal>
+        <ID>SummaryText</ID>
+        <ToolTip>Short summary of the monitor and the alert.</ToolTip>
+        <Default>Summary text</Default>
+      </Literal>
+      <Literal>
+        <ID>ResolutionText</ID>
+        <ToolTip>Short description of the actions to take when this monitor turns unhealthy.</ToolTip>
+        <Default>Resolution text</Default>
+      </Literal>
+      <Literal>
+        <ID>ParentMonitor</ID>
+        <ToolTip>The parent monitor under which this monitor will be located in the health explorer.</ToolTip>
+        <Default>Health!System.Health.AvailabilityState</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+    <![CDATA[<Monitoring>
+      <Monitors>
+      <UnitMonitor ID="@MPID@.@ServiceName@.WindowsService.UnitMonitor" Target="@TargetClass@" ParentMonitorID="@ParentMonitor@"  TypeID="Windows!Microsoft.Windows.CheckNTServiceStateMonitorType" Accessibility="Public" ConfirmDelivery="false" Enabled="true" Remotable="true" >
+        <Category>Custom</Category>
+        <AlertSettings AlertMessage="@MPID@.@ServiceName@.WindowsService.UnitMonitor.AlertMessage">
+        <AlertOnState>Error</AlertOnState>
+        <AutoResolve>true</AutoResolve>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <AlertParameters>
+          <AlertParameter1>$Target/Property[Type="System!System.Entity"]/DisplayName$</AlertParameter1>
+        </AlertParameters>
+      </AlertSettings>
+        <OperationalStates>
+          <OperationalState ID="Running" MonitorTypeStateID="Running" HealthState="Success" />
+          <OperationalState ID="NotRunning" MonitorTypeStateID="NotRunning" HealthState="Error" />
+        </OperationalStates>
+        <Configuration>
+          <ComputerName>$Target/@Property Path@Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+          <ServiceName>@ServiceName@</ServiceName>
+          <CheckStartupType>false</CheckStartupType>
+        </Configuration>
+      </UnitMonitor>
+    </Monitors>
+</Monitoring>
+<Presentation>
+  <StringResources>
+    <StringResource ID="@MPID@.@ServiceName@.WindowsService.UnitMonitor.AlertMessage" />
+  </StringResources>
+</Presentation>
+   <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@ServiceName@.WindowsService.UnitMonitor">
+          <Name>@ServiceName@ Service</Name>
+          <Description>This monitor checks that the '@ServiceName@' windows service is running.</Description>
+        </DisplayString>
+        <DisplayString ElementID="@MPID@.@ServiceName@.WindowsService.UnitMonitor.AlertMessage">
+         <Name>The '@ServiceName@' service has stopped.</Name>
+         <Description>The '@ServiceName@' windows service on {0} has stopped.</Description>
+     </DisplayString>
+      </DisplayStrings>
+      <KnowledgeArticles>
+        <KnowledgeArticle ElementID="@MPID@.@ServiceName@.WindowsService.UnitMonitor" Visible="true">
+          <MamlContent xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+            <maml:section>
+              <maml:title>Summary</maml:title>
+              <maml:para>@SummaryText@</maml:para>
+            </maml:section>
+            <maml:section>
+              <maml:title>Resolution</maml:title>
+              <maml:para>@ResolutionText@</maml:para>
+            </maml:section>
+          </MamlContent>
+        </KnowledgeArticle>
+      </KnowledgeArticles>
+    </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

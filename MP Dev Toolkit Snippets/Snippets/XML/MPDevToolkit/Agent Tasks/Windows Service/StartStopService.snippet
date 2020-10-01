@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Windows Service, Start/Stop</Title>
+    <Author>OpsLogix</Author>
+    <Shortcut></Shortcut>
+    <Description>Inserts two tasks that starts and stops a windows service.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassName</ID>
+        <ToolTip>Name of the class.</ToolTip>
+        <Default>ClassName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>The class that the view should be scoped on.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>NameProperty</ID>
+        <ToolTip>The property of the class that contains the service name.</ToolTip>
+        <Default>Name</Default>
+      </Literal>
+      <Literal>
+        <ID>CommandName</ID>
+        <ToolTip>Path and command name.</ToolTip>
+        <Default>C:\WINDOWS\system32\sc.exe</Default>
+      </Literal>
+      <Literal>
+        <ID>WorkingDirectory</ID>
+        <ToolTip>Working directory.</ToolTip>
+        <Default>C:\WINDOWS\system32\</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Monitoring>
+    <Tasks>
+    <Task ID="@MPID@.@ClassName@.StartService.Agent.Task" Accessibility="Public" 
+        Enabled="true" Target="@TargetClass@" Timeout="300" Remotable="true">
+        <Category>Custom</Category>
+        <WriteAction ID="PA" TypeID="System!System.CommandExecuter">
+          <ApplicationName>@CommandName@</ApplicationName>
+          <WorkingDirectory>@WorkingDirectory@</WorkingDirectory>
+          <CommandLine>start "$Target/Property[Type="@TargetClass@"]/@NameProperty@$"</CommandLine>
+          <TimeoutSeconds>15</TimeoutSeconds>
+          <RequireOutput>true</RequireOutput>
+          <Files />
+        </WriteAction>
+      </Task>
+      <Task ID="@MPID@.@ClassName@.StopService.Agent.Task" Accessibility="Public" 
+        Enabled="true" Target="@TargetClass@" Timeout="300" Remotable="true">
+        <Category>Custom</Category>
+        <WriteAction ID="PA" TypeID="System!System.CommandExecuter">
+          <ApplicationName>@CommandName@</ApplicationName>
+          <WorkingDirectory>@WorkingDirectory@</WorkingDirectory>
+          <CommandLine>stop $Target/Property[Type="@TargetClass@"]/@NameProperty@$</CommandLine>
+          <TimeoutSeconds>15</TimeoutSeconds>
+          <RequireOutput>true</RequireOutput>
+          <Files />
+        </WriteAction>
+      </Task>
+    </Tasks>
+  </Monitoring>
+   <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@ClassName@.StartService.Agent.Task">
+            <Name>Start Service</Name>
+            <Description>This task runs the command 'sc start $Target/Property[Type="@TargetClass@"]/@NameProperty@$' to start the service.</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ClassName@.StopService.Agent.Task">
+            <Name>Stop Service</Name>
+            <Description>This task runs the command 'sc start $Target/Property[Type="@TargetClass@"]/@NameProperty@$' to stop the service.</Description>
+          </DisplayString>
+        </DisplayStrings>
+      </LanguagePack>
+    </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

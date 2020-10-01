@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Application Component, 1 property, hosted</Title>
+    <Author>OpsLogix</Author>
+    <Shortcut></Shortcut>
+    <Description>Creates a hosted Application Component class with one property.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID. This should be the same as you project name (as shown in the Solution Explorer).</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassName</ID>
+        <ToolTip>The name of the class.</ToolTip>
+        <Default>Class Name</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassDisplayName</ID>
+        <ToolTip>The display name. This is shown in the Operations Console.</ToolTip>
+        <Default>Class Display Name</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassDescription</ID>
+        <ToolTip>This is the description of the class as shown in the Operations Console. Enter a short but clear description of the class. For example: 'This class represents application X '.</ToolTip>
+        <Default>Class description</Default>
+      </Literal>
+      <Literal>
+        <ID>Property1Name</ID>
+        <ToolTip>This is the ID of the property. It does not have to be uniqe in the management pack, so just the name is sufficient.</ToolTip>
+        <Default>Property Name</Default>
+      </Literal>
+      <Literal>
+        <ID>Property1Description</ID>
+        <ToolTip>Enter a short description of the property.</ToolTip>
+        <Default>Property Description</Default>
+      </Literal>
+      <Literal>
+        <ID>Property1Type</ID>
+        <ToolTip>
+          This sets the type of property. The most common types are:
+          - string
+          - int
+          - bool
+          - decimal
+          - double
+          - datetime
+          - guid
+
+          Press Backspace and Ctrl+Space to use Intellisense.
+        </ToolTip>
+        <Default>string</Default>
+      </Literal>
+      <Literal>
+        <ID>SourceClassName</ID>
+        <ToolTip>The name/description of the hosting class. It's recommended not to use the full ID but only the description part of the Class ID.</ToolTip>
+        <Default>Source Class name</Default>
+      </Literal>
+      <Literal>
+        <ID>SourceClass</ID>
+        <ToolTip>The full ID of the hosting class. Press Backspace and Ctrl+Space to use Intellisense.</ToolTip>
+        <Default>Source Class</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+          <ClassType ID="@MPID@.@ClassName@.Class" Base="Windows!Microsoft.Windows.ApplicationComponent" 
+              Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+            <Property ID="@Property1Name@" Key="true" Type="@Property1Type@" />
+          </ClassType>
+      </ClassTypes>
+      <RelationshipTypes>
+        <RelationshipType ID="@MPID@.@SourceClassName@Hosts@ClassName@.Relationship" Accessibility="Public" Abstract="false" Base="System!System.Hosting" >
+          <Source ID="Source" Type="@SourceClass@" />
+          <Target ID="Target" Type="@MPID@.@ClassName@.Class"/> 
+        </RelationshipType>
+      </RelationshipTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@ClassName@.Class">
+            <Name>@ClassDisplayName@</Name>
+            <Description>@ClassDescription@</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ClassName@.Class" SubElementID="@Property1Name@">
+            <Name>@Property1Name@</Name>
+            <Description>@Property1Description@</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@SourceClassName@Hosts@ClassName@.Relationship">
+            <Name>@SourceClassName@ Hosts @ClassName@</Name>
+            <Description>@SourceClassName@ Hosts @ClassName@</Description>
+          </DisplayString>
+        </DisplayStrings>
+      </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

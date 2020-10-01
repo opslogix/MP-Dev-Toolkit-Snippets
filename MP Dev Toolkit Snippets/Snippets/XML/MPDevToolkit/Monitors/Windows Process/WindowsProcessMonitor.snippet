@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Windows Process, Unit monitor</Title>
+    <Author>Peter Svensson</Author>
+    <Shortcut></Shortcut>
+    <Description>This creates a UnitMonitor to check i a Windows Process is running.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ProcessName</ID>
+        <ToolTip>Replace with the name of the Process. MUST match the exact name of process!</ToolTip>
+        <Default>ProcessName</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorName</ID>
+        <ToolTip>Replace with the name of the Monitor</ToolTip>
+        <Default>MonitorName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>SummaryText</ID>
+        <ToolTip>Short summary of the monitor and the alert.</ToolTip>
+        <Default>Summary text</Default>
+      </Literal>
+      <Literal>
+        <ID>ResolutionText</ID>
+        <ToolTip>Short description of the actions to take when this alert is generated.</ToolTip>
+        <Default>Resolution text</Default>
+      </Literal>
+      <Literal>
+        <ID>ParentMonitor</ID>
+        <ToolTip>The parent monitor under which this monitor will be located in the health explorer.</ToolTip>
+        <Default>Health!System.Health.AvailabilityState</Default>
+      </Literal>
+      <Literal>
+        <ID>Frequency</ID>
+        <ToolTip>Enter the frequency in seconds on which the monitor should run.</ToolTip>
+        <Default>60</Default>
+      </Literal>
+      <Literal>
+        <ID>MaxInstance</ID>
+        <ToolTip>The maximum number of instances of the process.</ToolTip>
+        <Default>5</Default>
+      </Literal>
+      <Literal>
+        <ID>MinInstance</ID>
+        <ToolTip>The minimum number of instances of the process.</ToolTip>
+        <Default>1</Default>
+      </Literal>
+      <Literal>
+        <ID>Duration</ID>
+        <ToolTip>Duration of the check. The instance count must be more than max or less than min during this timeperiod (in seconds).</ToolTip>
+        <Default>60</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Monitoring>
+        <Monitors>
+          <UnitMonitor ID="@MPID@.@MonitorName@.InstanceCount.UnitMonitor" Target="@TargetClass@" ParentMonitorID="@ParentMonitor@" TypeID="MSPL!Microsoft.SystemCenter.Process.ProcessInstanceCountMonitorType" Accessibility="Public" ConfirmDelivery="false" Enabled="true" Remotable="true" >
+            <Category>Custom</Category>
+            <AlertSettings AlertMessage="@MPID@.@MonitorName@.InstanceCount.UnitMonitor.AlertMessage">
+              <AlertOnState>Error</AlertOnState>
+              <AutoResolve>true</AutoResolve>
+              <AlertPriority>Normal</AlertPriority>
+              <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+              <AlertParameters>
+                <AlertParameter1>$Target/Property[Type="System!System.Entity"]/DisplayName$</AlertParameter1>
+              </AlertParameters>
+            </AlertSettings>
+            <OperationalStates>
+              <OperationalState ID="Success" MonitorTypeStateID="InsideRangeState" HealthState="Success" />
+              <OperationalState ID="Error" MonitorTypeStateID="OutsideRangeState" HealthState="Error" />
+            </OperationalStates>
+            <Configuration>
+              <ProcessName>@ProcessName@</ProcessName>
+              <Frequency>@Frequency@</Frequency>
+              <MinInstanceCount>@MinInstance@</MinInstanceCount>
+              <MaxInstanceCount>@MaxInstance@</MaxInstanceCount>
+              <InstanceCountOutOfRangeTimeThresholdInSeconds>@Duration@</InstanceCountOutOfRangeTimeThresholdInSeconds>
+            </Configuration>
+          </UnitMonitor>
+        </Monitors>
+      </Monitoring>
+      <Presentation>
+        <StringResources>
+          <StringResource ID="@MPID@.@MonitorName@.InstanceCount.UnitMonitor.AlertMessage" />
+        </StringResources>
+      </Presentation>
+       <LanguagePacks>
+        <LanguagePack ID="ENU" IsDefault="true">
+         <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@MonitorName@.InstanceCount.UnitMonitor">
+            <Name>@MonitorName@ Instance count</Name>
+            <Description>This monitor checks the number of running instances of the '@MonitorName@' process.</Description>
+          </DisplayString>
+           <DisplayString ElementID="@MPID@.@MonitorName@.InstanceCount.UnitMonitor" SubElementID="Error">
+             <Name>Error</Name>
+           </DisplayString>
+           <DisplayString ElementID="@MPID@.@MonitorName@.InstanceCount.UnitMonitor" SubElementID="Success">
+             <Name>Success</Name>
+           </DisplayString>
+           <DisplayString ElementID="@MPID@.@MonitorName@.InstanceCount.UnitMonitor.AlertMessage">
+             <Name>The @MonitorName@ Instance count process is not correct.</Name>
+             <Description>The @MonitorName@ Instance count process is {0}.</Description>
+           </DisplayString>
+         </DisplayStrings>
+      <KnowledgeArticles>
+            <KnowledgeArticle ElementID="@MPID@.@MonitorName@.InstanceCount.UnitMonitor" Visible="true">
+              <MamlContent xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                <maml:section>
+                  <maml:title>Summary</maml:title>
+                  <maml:para>@SummaryText@</maml:para>
+                </maml:section>
+                <maml:section>
+                  <maml:title>Resolution</maml:title>
+                  <maml:para>@ResolutionText@</maml:para>
+                </maml:section>
+              </MamlContent>
+            </KnowledgeArticle>
+          </KnowledgeArticles>
+        </LanguagePack>
+      </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

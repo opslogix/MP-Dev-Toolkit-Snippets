@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Eventlog, Unit Monitor</Title>
+    <Author>OpsLogix</Author>
+    <Description>This creates a UnitMonitor that checks the eventlog for a specific event.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorName</ID>
+        <ToolTip>Replace with the description part of the monitor name.</ToolTip>
+        <Default>MonitorName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>UnhealthyEventID</ID>
+        <ToolTip>This is the eventId which sets the monitor into an unhealthy state.</ToolTip>
+        <Default>UnhealthyEventID</Default>
+      </Literal>
+      <Literal>
+        <ID>HealthyEventID</ID>
+        <ToolTip>This is the eventId which sets the monitor into an healthy state.</ToolTip>
+        <Default>HealthyEventID</Default>
+      </Literal>
+      <Literal>
+        <ID>HealthyLogName</ID>
+        <ToolTip>Name of the eventlog where to check for the healthy event.</ToolTip>
+        <Default>HealthyLogName</Default>
+      </Literal>
+      <Literal>
+        <ID>UnhealthyLogName</ID>
+        <ToolTip>Name of the eventlog where to check for the unhealthy event.</ToolTip>
+        <Default>UnhealthyLogName</Default>
+      </Literal>
+      <Literal>
+        <ID>UnhealthyEventSource</ID>
+        <ToolTip>Source of the unhealthy event.</ToolTip>
+        <Default>UnhealthyEventSource</Default>
+      </Literal>
+      <Literal>
+        <ID>HealthyEventSource</ID>
+        <ToolTip>Source of the healthy event.</ToolTip>
+        <Default>HealthyEventSource</Default>
+      </Literal>
+      <Literal>
+        <ID>Property Path</ID>
+        <ToolTip>The path to the property. If its located on the target, remove host. But if the target i hosted by Win computer, leave it.</ToolTip>
+        <Default>Host/</Default>
+      </Literal>
+      <Literal>
+        <ID>SummaryText</ID>
+        <ToolTip>Short summary of the monitor and the alert.</ToolTip>
+        <Default>Summary text</Default>
+      </Literal>
+      <Literal>
+        <ID>ResolutionText</ID>
+        <ToolTip>Short description of the actions to take when this monitor turns unhealthy.</ToolTip>
+        <Default>Resolution text</Default>
+      </Literal>
+      <Literal>
+        <ID>ParentMonitor</ID>
+        <ToolTip>The parent monitor under which this monitor will be located in the health explorer.</ToolTip>
+        <Default>Health!System.Health.AvailabilityState</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorDisplayName</ID>
+        <ToolTip>DisplayName, what is shown in the Operations Console.</ToolTip>
+        <Default>MonitorDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>MonitorDescription</ID>
+        <ToolTip>Short description of the monitor.</ToolTip>
+        <Default>MonitorDescription</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+    <![CDATA[<Monitoring>
+      <Monitors>
+       <UnitMonitor ID="@MPID@.@MonitorName@.Eventlog.UnitMonitor" Accessibility="Public" Enabled="true"
+       Target="@TargetClass@" ParentMonitorID="@ParentMonitor@" Remotable="true" Priority="Normal" 
+       TypeID="Windows!Microsoft.Windows.2SingleEventLog2StateMonitorType" ConfirmDelivery="true">
+        <Category>Custom</Category>
+        <AlertSettings AlertMessage="@MPID@.@MonitorName@.Eventlog.UnitMonitor.AlertMessage">
+          <AlertOnState>Error</AlertOnState>
+          <AutoResolve>true</AutoResolve>
+          <AlertPriority>Normal</AlertPriority>
+          <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+          <AlertParameters>
+            <AlertParameter1>$Data[Default='']/Context/EventDescription$</AlertParameter1>
+          </AlertParameters>
+        </AlertSettings>
+        <OperationalStates>
+          <OperationalState ID="Unhealthy" MonitorTypeStateID="FirstEventRaised" HealthState="Error" />
+          <OperationalState ID="Healthy" MonitorTypeStateID="SecondEventRaised" HealthState="Success" />
+        </OperationalStates>
+        <Configuration>
+          <FirstComputerName>$Target/@Property Path@Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</FirstComputerName>
+          <FirstLogName>@UnhealthyLogName@</FirstLogName>
+          <FirstExpression>
+            <And>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="UnsignedInteger">@UnhealthyEventID@</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">PublisherName</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">@UnhealthyEventSource@</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </And>
+          </FirstExpression>
+          <SecondComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</SecondComputerName>
+          <SecondLogName>@HealthyLogName@</SecondLogName>
+          <SecondExpression>
+            <And>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="UnsignedInteger">@HealthyEventID@</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">PublisherName</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">@HealthyEventSource@</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </And>
+          </SecondExpression>
+        </Configuration>
+      </UnitMonitor>
+    </Monitors>
+</Monitoring>
+<Presentation>
+  <StringResources>
+    <StringResource ID="@MPID@.@MonitorName@.Eventlog.UnitMonitor.AlertMessage" />
+  </StringResources>
+</Presentation>
+   <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@MonitorName@.Eventlog.UnitMonitor">
+          <Name>@MonitorDisplayName@</Name>
+          <Description>This monitor checks for the eventID @UnhealthyEventID@ in the @UnhealthyLogName@ log. It turns healthy again after finding @HealthyEventID@ in @HealthyLogName@.</Description>
+        </DisplayString>
+        <DisplayString ElementID="@MPID@.@MonitorName@.Eventlog.UnitMonitor.AlertMessage">
+         <Name>EventID @UnhealthyEventID@' from source '@UnhealthyEventSource@' has been found in the @UnhealthyLogName@ log.</Name>
+         <Description>EventID @UnhealthyEventID@' from source '@UnhealthyEventSource@' has been found in the @UnhealthyLogName@ log.
+         Event details: {0}</Description>
+     </DisplayString>
+      </DisplayStrings>
+        <KnowledgeArticles>
+        <KnowledgeArticle ElementID="@MPID@.@MonitorName@.Eventlog.UnitMonitor" Visible="true">
+          <MamlContent xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+            <maml:section>
+              <maml:title>Summary</maml:title>
+              <maml:para>@SummaryText@</maml:para>
+            </maml:section>
+            <maml:section>
+              <maml:title>Resolution</maml:title>
+              <maml:para>@ResolutionText@</maml:para>
+            </maml:section>
+          </MamlContent>
+        </KnowledgeArticle>
+      </KnowledgeArticles>
+    </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

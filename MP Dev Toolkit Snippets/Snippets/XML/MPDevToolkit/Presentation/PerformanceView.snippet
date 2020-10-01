@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Performance View</Title>
+    <Author>OpsLogix</Author>
+    <Description>Inserts an performance view.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID.</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ViewName</ID>
+        <ToolTip>The description part of the view name</ToolTip>
+        <Default>ViewName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>Replace with the name of the target class. To use Intellisence, press Backspace and then Ctrl+Space.</ToolTip>
+        <Default>System!System.Entity</Default>
+      </Literal>
+      <Literal>
+        <ID>Folder</ID>
+        <ToolTip>This is the name of the folder in which the view should be placed.</ToolTip>
+        <Default>Folder</Default>
+      </Literal> 
+      <Literal>
+        <ID>ViewDisplayName</ID>
+        <ToolTip>The display name of the view, this is what's shown in the operations console.</ToolTip>
+        <Default>ViewDisplayName</Default>
+      </Literal>
+      <Literal>
+        <ID>GroupName</ID>
+        <ToolTip>The group on which the view is scoped. This is the description part of the group name.</ToolTip>
+        <Default>GroupName</Default>
+      </Literal>
+      <Literal>
+        <ID>RuleName</ID>
+        <ToolTip>The name of the collection view to show data from. This is the description part of the name. </ToolTip>
+        <Default>RuleName</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<Presentation>
+      <Views>
+     <View ID="@MPID@.@ViewName@.Performance.View" Accessibility="Public" Enabled="true" Target="@TargetClass@" TypeID="SC!Microsoft.SystemCenter.PerformanceViewType" Visible="true">
+    <Category>Operations</Category>
+    <Criteria>
+        <RuleList>
+            <Rule>$MPElement[Name="@MPID@.@RuleName@.Collection.Rule"]$</Rule>
+        </RuleList>
+    </Criteria>
+    <Presentation>
+        <SortedColumnIndex>0</SortedColumnIndex>
+        <SortOrder>0</SortOrder>
+        <StartTime>2015-04-28T14:42:14.9695106+02:00</StartTime>
+        <EndTime>2015-04-29T14:42:14.9695106+02:00</EndTime>
+        <DynamicTimeTicks>864000000000</DynamicTimeTicks>
+        <IsDynamic>true</IsDynamic>
+        <Is3DMode>false</Is3DMode>
+        <ShowAlerts>false</ShowAlerts>
+        <ShowMaintenanceMode>false</ShowMaintenanceMode>
+        <BaselineMode>false</BaselineMode>
+        <ShowPointLabels>false</ShowPointLabels>
+        <EnableSmartLabels>true</EnableSmartLabels>
+        <RightAngleAxes>false</RightAngleAxes>
+        <ClusterSeries>false</ClusterSeries>
+        <Title />
+        <TitleFont>Microsoft Sans Serif,12,Regular</TitleFont>
+        <ChartFont>Microsoft Sans Serif,8.25,Regular</ChartFont>
+        <ShowBands>false</ShowBands>
+        <BandColor>-1579033</BandColor>
+        <ChartType>Line</ChartType>
+        <Depth>100</Depth>
+        <GapDepth>100</GapDepth>
+        <Perspective>10</Perspective>
+        <GraphXRotation>0</GraphXRotation>
+        <GraphYRotation>0</GraphYRotation>
+        <XLabelAngle>0</XLabelAngle>
+        <LabelColor>-16777216</LabelColor>
+        <LabelFont>Microsoft Sans Serif,8.25,Regular</LabelFont>
+        <XAxisVisible>True</XAxisVisible>
+        <XShowMajorGridlines>false</XShowMajorGridlines>
+        <XShowMinorGridlines>false</XShowMinorGridlines>
+        <ShowInterlaceStrips>false</ShowInterlaceStrips>
+        <XInterlaceColor>16777215</XInterlaceColor>
+        <XShowSideMargin>true</XShowSideMargin>
+        <XAxisFont>Microsoft Sans Serif,8.25,Regular</XAxisFont>
+        <AutoAxis>true</AutoAxis>
+        <AxisMax>100</AxisMax>
+        <AxisMin>0</AxisMin>
+        <YAxisVisible>True</YAxisVisible>
+        <YShowMajorGridlines>true</YShowMajorGridlines>
+        <YShowMinorGridlines>false</YShowMinorGridlines>
+        <YShowInterlaceStrips>false</YShowInterlaceStrips>
+        <YShowSideMargin>true</YShowSideMargin>
+        <YAxisFont>Microsoft Sans Serif,8.25,Regular</YAxisFont>
+        <BackgroundColor1>-1</BackgroundColor1>
+        <BackgroundColor2>-1</BackgroundColor2>
+        <GradientType>None</GradientType>
+        <Series />
+      </Presentation>
+      <Target>$MPElement[Name="@MPID@.@GroupName@.Class"]$</Target>
+    </View>    
+    </Views>
+    <FolderItems>
+      <FolderItem ElementID="@MPID@.@ViewName@.Performance.View" 
+                  ID="@MPID@.@ViewName@.Performance.View.FolderItem" 
+                  Folder="@Folder@" />
+    </FolderItems>
+    </Presentation>
+     <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@ViewName@.Performance.View">
+            <Name>@ViewDisplayName@</Name>
+          </DisplayString>
+        </DisplayStrings>
+      </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

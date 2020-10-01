@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Computer Group</Title>
+    <Author>OpsLogix</Author>
+    <Shortcut></Shortcut>
+    <Description>Creates a computer group.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID. This should be the same as you project name (as shown in the Solution Explorer).</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>GroupName</ID>
+        <ToolTip>The name of the group.</ToolTip>
+        <Default>Group Name</Default>
+      </Literal>
+      <Literal>
+        <ID>GroupDisplayName</ID>
+        <ToolTip>The display name. This is shown in the Operations Console.</ToolTip>
+        <Default>Group Display Name</Default>
+      </Literal>
+      <Literal>
+        <ID>GroupDescription</ID>
+        <ToolTip>This is the description of the group as shown in the Operations Console. Enter a short but clear description of the group. For example: 'This group contains all servers with application X installed'.</ToolTip>
+        <Default>Group description</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+          <ClassType ID="@MPID@.@GroupName@.Class" Base="SC!Microsoft.SystemCenter.ComputerGroup" 
+              Accessibility="Public" Abstract="false" Hosted="false" Singleton="true">
+          </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@GroupName@.Class">
+            <Name>@GroupDisplayName@</Name>
+            <Description>@GroupDescription@</Description>
+          </DisplayString>
+        </DisplayStrings>
+      </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

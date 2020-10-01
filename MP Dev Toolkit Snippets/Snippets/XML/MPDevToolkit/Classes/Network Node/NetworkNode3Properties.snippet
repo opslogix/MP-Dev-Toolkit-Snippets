@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>NetworkNode, 3 properties</Title>
+    <Author>OpsLogix</Author>
+    <Shortcut></Shortcut>
+    <Description>Creates a network node class with three properties.</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID. This should be the same as you project name (as shown in the Solution Explorer).</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassName</ID>
+        <ToolTip>The name of the class.</ToolTip>
+        <Default>Class Name</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassDisplayName</ID>
+        <ToolTip>The display name. This is shown in the Operations Console.</ToolTip>
+        <Default>Class Display Name</Default>
+      </Literal>
+      <Literal>
+        <ID>ClassDescription</ID>
+        <ToolTip>This is the description of the class as shown in the Operations Console. Enter a short but clear description of the class. For example: 'This class represents all devices of type X'.</ToolTip>
+        <Default>Class description</Default>
+      </Literal>
+      <Literal>
+        <ID>Property1Name</ID>
+        <ToolTip>This is the ID of the property. It does not have to be uniqe in the management pack, so just the name is sufficient.</ToolTip>
+        <Default>Property Name</Default>
+      </Literal>
+      <Literal>
+        <ID>Property1Description</ID>
+        <ToolTip>Enter a short description of the property.</ToolTip>
+        <Default>Property Description</Default>
+      </Literal>
+      <Literal>
+        <ID>Property1Type</ID>
+        <ToolTip>
+          This sets the type of property. The most common types are:
+          - string
+          - int
+          - bool
+          - decimal
+          - double
+          - datetime
+          - guid
+
+          Press Backspace and Ctrl+Space to use Intellisense.
+        </ToolTip>
+        <Default>string</Default>
+      </Literal>
+      <Literal>
+        <ID>Property2Name</ID>
+        <ToolTip>This is the ID of the property. It does not have to be uniqe in the management pack, so just the name is sufficient.</ToolTip>
+        <Default>Property Name</Default>
+      </Literal>
+      <Literal>
+        <ID>Property2Description</ID>
+        <ToolTip>Enter a short description of the property.</ToolTip>
+        <Default>Property Description</Default>
+      </Literal>
+      <Literal>
+        <ID>Property2Type</ID>
+        <ToolTip>
+          This sets the type of property. The most common types are:
+          - string
+          - int
+          - bool
+          - decimal
+          - double
+          - datetime
+          - guid
+
+          Press Backspace and Ctrl+Space to use Intellisense.
+        </ToolTip>
+        <Default>string</Default>
+      </Literal>
+      <Literal>
+        <ID>Property3Name</ID>
+        <ToolTip>This is the ID of the property. It does not have to be uniqe in the management pack, so just the name is sufficient.</ToolTip>
+        <Default>Property Name</Default>
+      </Literal>
+      <Literal>
+        <ID>Property3Description</ID>
+        <ToolTip>Enter a short description of the property.</ToolTip>
+        <Default>Property Description</Default>
+      </Literal>
+      <Literal>
+        <ID>Property3Type</ID>
+        <ToolTip>
+          This sets the type of property. The most common types are:
+          - string
+          - int
+          - bool
+          - decimal
+          - double
+          - datetime
+          - guid
+
+          Press Backspace and Ctrl+Space to use Intellisense.
+        </ToolTip>
+        <Default>string</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+          <ClassType ID="@MPID@.@ClassName@.Class" Base="SNL!System.NetworkManagement.Node" 
+              Accessibility="Public" Abstract="false" Hosted="false" Singleton="false">
+            <Property ID="@Property1Name@" Key="false" Type="@Property1Type@" />
+            <Property ID="@Property2Name@" Key="false" Type="@Property2Type@" />
+            <Property ID="@Property3Name@" Key="false" Type="@Property3Type@" />
+          </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+        <DisplayStrings>
+          <DisplayString ElementID="@MPID@.@ClassName@.Class">
+            <Name>@ClassDisplayName@</Name>
+            <Description>@ClassDescription@</Description>
+          </DisplayString>
+          <DisplayString ElementID="@MPID@.@ClassName@.Class" SubElementID="@Property1Name@">
+            <Name>@Property1Name@</Name>
+            <Description>@Property1Description@</Description>
+          </DisplayString>
+           <DisplayString ElementID="@MPID@.@ClassName@.Class" SubElementID="@Property2Name@">
+            <Name>@Property2Name@</Name>
+            <Description>@Property2Description@</Description>
+          </DisplayString>
+           <DisplayString ElementID="@MPID@.@ClassName@.Class" SubElementID="@Property3Name@">
+            <Name>@Property3Name@</Name>
+            <Description>@Property3Description@</Description>
+          </DisplayString>
+        </DisplayStrings>
+      </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

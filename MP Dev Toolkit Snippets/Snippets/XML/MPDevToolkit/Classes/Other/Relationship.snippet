@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Relationship</Title>
+    <Author>OpsLogix</Author>
+    <Shortcut></Shortcut>
+    <Description></Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>MPID</ID>
+        <ToolTip>Replace with the management pack ID. This should be the same as you project name (as shown in the Solution Explorer).</ToolTip>
+        <Default>MPID</Default>
+      </Literal>
+      <Literal>
+        <ID>SourceClassName</ID>
+        <ToolTip>This is the name of the source class. It's not the full ID of the class, just description part of the ID.</ToolTip>
+        <Default>SourceClassName</Default>
+      </Literal>
+      <Literal>
+        <ID>SourceClass</ID>
+        <ToolTip>The full ID of the source class. Press Backspace and Ctrl+Space to use Intellisense.</ToolTip>
+        <Default>SourceClass</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClassName</ID>
+        <ToolTip>This is the name of the target class. It's not the full ID of the class, just description part of the ID</ToolTip>
+        <Default>TargetClassName</Default>
+      </Literal>
+      <Literal>
+        <ID>TargetClass</ID>
+        <ToolTip>The full ID of the hosted class. Press Backspace and Ctrl+Space to use Intellisense.</ToolTip>
+        <Default>TargetClass</Default>
+      </Literal>
+      <Literal>
+        <ID>RelationshipType</ID>
+        <ToolTip></ToolTip>
+        <Default>System!System.Hosting</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="XML" Delimiter="@">
+      <![CDATA[<TypeDefinitions>
+    <EntityTypes>
+      <RelationshipTypes>
+        <RelationshipType ID="@MPID@.@SourceClassName@Hosts@TargetClassName@.Relationship" Accessibility="Public" Abstract="false"
+                          Base="@RelationshipType@">
+          <Source ID="Source" Type="@SourceClass@" />
+          <Target ID="Target" Type="@TargetClass@"/> 
+        </RelationshipType>
+      </RelationshipTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="@MPID@.@SourceClassName@Hosts@ClassName@.Relationship">
+          <Name>@SourceClassName@Hosts@TargetClassName@ relationship</Name>
+          <Description>@SourceClassName@ Hosts @TargetClassName@ relationship</Description>
+        </DisplayString>
+      </DisplayStrings>
+      </LanguagePack>
+  </LanguagePacks>]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

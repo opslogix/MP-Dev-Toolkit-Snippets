@@ -1,0 +1,7 @@
+﻿
+
+// ---------------------- SNIPPETS ----------------------
+
+// XML 
+[$RootKey$\Languages\CodeExpansions\XML\Paths] 
+"MP Dev Toolkit"="$PackageFolder$\Snippets\XML\MPDevToolkit"
