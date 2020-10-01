@@ -1,3 +1,0 @@
-﻿1>------ Rebuild All started: Project: MP Dev Toolkit Snippets, Configuration: Debug Any CPU ------
-1>  MP Dev Toolkit Snippets -> C:\Git\MP-Dev-Toolkit-Snippets\MP Dev Toolkit Snippets\bin\Debug\MP Dev Toolkit Snippets.vsix
-========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
