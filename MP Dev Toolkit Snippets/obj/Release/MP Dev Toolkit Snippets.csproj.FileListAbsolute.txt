@@ -13,7 +13,6 @@ C:\VS\mp-dev-toolkit\MP Dev Toolkit Snippets\obj\Release\MP Dev Toolkit Snippets
 C:\Git\MP-Dev-Toolkit-Snippets\MP Dev Toolkit Snippets\bin\Release\MPDevToolkit.pkgdef
 C:\Git\MP-Dev-Toolkit-Snippets\MP Dev Toolkit Snippets\bin\Release\MP Dev Toolkit Snippets.vsix
 C:\Git\MP-Dev-Toolkit-Snippets\MP Dev Toolkit Snippets\bin\Release\extension.vsixmanifest
-C:\Git\MP-Dev-Toolkit-Snippets\MP Dev Toolkit Snippets\obj\Release\MP Dev Toolkit Snippets.csprojAssemblyReference.cache
 C:\Git\MP-Dev-Toolkit-Snippets\MP Dev Toolkit Snippets\obj\Release\_EmptyResource.resources
 C:\Git\MP-Dev-Toolkit-Snippets\MP Dev Toolkit Snippets\obj\Release\MP Dev Toolkit Snippets.csproj.GenerateResource.cache
 C:\Git\MP-Dev-Toolkit-Snippets\MP Dev Toolkit Snippets\obj\Release\MP Dev Toolkit Snippets.csproj.CoreCompileInputs.cache
